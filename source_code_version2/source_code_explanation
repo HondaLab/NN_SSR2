@@ -16,7 +16,7 @@ dataはRGB画像データの列の和とモーターの出力，「chainer_data_
 
 ３．２のdataをそのままfolder「training_code」に移動して，「chainer_neural_network_hidden_1」
 「chainer_neural_network_hidden_2」を実行して，中間層１層と２層のニューラルネットワークを学習させる，
-結果が自動的にfolderを作って保存する．
+結果が自動的にfolderを作って保存する．[NN_batch_training]のcodeはバッチ学習です．
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
