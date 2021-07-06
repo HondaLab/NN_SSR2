@@ -59,8 +59,8 @@ NNの入力と出力それぞれ下記ファイルに保存される．
 
 
 ## NNによるロボットの自律走行
-３でもらった学習結果の「data_in_max」「data_out_max」「optimum_weight_???」3つのfileを
-「moveing_by_NN_robot_part」の「neural_network」の「anticlockwise」or [clockwise]の
+学習結果の「data_in_max.csv」「data_out_max.csv」「optimum_weight_???」3つのfileを
+「Autonomous_Movement」の「anticlockwise」or [clockwise]の
 「weight_hidden1_anticlockwise」or「weight_hidden2_anticlockwise」or[weight_hidden1_clockwise]or
 [weight_hidden2_clockwise] に移動して
 「neural_network_hidden1_anticlockwise」と「neural_network_hidden2_clockwise」で学習結果により，
