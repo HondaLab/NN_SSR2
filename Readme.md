@@ -1,14 +1,14 @@
 ニューラルネットワーク(NN)を用いて，
 スキッドステアリングロボット([SSR2](https://github.com/HondaLab/SSR2))の自律走行実現する．
 
-teacher data :
-
-https://muroranit-my.sharepoint.com/:u:/g/personal/20043068_mmm_muroran-it_ac_jp/EW3JrT4Qc2FLv4XZDQQAzXkBjjGTF9sr99w809OttwJUJw?e=LjS0YQ
 
 
 ## ロボットのラジコン操縦による，教師データの作成
-folder[teacher_data_robot_part] の [NN_teacher_data_collection_by_socket.py]と
-folder「teacher_data_copmuter_part」の「socket_recv.py」を両方同時に実行して，ラジコンで
+* Raspi@SSR2:teacher_data_robot_part/NN_teacher_data_collection_by_socket.py
+* DebianPC: teacher_data_copmuter_part/socket_recv.py
+上記２プログラムを両方同時に実行する．
+
+ラジコンで
 ロボットを制御する．「keyin」「li_socket」「motor5a」「vl53_3a」「li_socket」が必要なpackage.
 ”a”をおすと，ロボットのmotorのoutputが大きくなる
 ”ｚ”をおすと，ロボットのmotorのoutputが小さくなる
@@ -41,3 +41,6 @@ dataはRGB画像データの列の和とモーターの出力，「chainer_data_
 folder「data_making」の「train_data_make_version2」を実行して，folder「１」と「２」等等にある教師デーダを
 融合する．
 
+## teacher data example:
+
+https://muroranit-my.sharepoint.com/:u:/g/personal/20043068_mmm_muroran-it_ac_jp/EW3JrT4Qc2FLv4XZDQQAzXkBjjGTF9sr99w809OttwJUJw?e=LjS0YQ
