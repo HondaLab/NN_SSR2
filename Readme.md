@@ -1,7 +1,7 @@
 # 概要
-ニューラルネットワーク(NN)を用いて，
 スキッドステアリングロボット([SSR2](https://github.com/HondaLab/SSR2))の自律走行実現する．
-
+PiCameraの画像を主な入力データとする，ニューラルネットワーク(NN)を用いる．
+NNの構成フレームワークとしてChainerを用いる．
 
 
 ## ロボットのラジコン操縦による，教師データの作成
@@ -14,6 +14,7 @@
 NNの入力はPiCameraからの画像，出力がモーター制御値である．
 手動制御したモーター制御値を正解値とする回帰問題として自律走行を考える．
 
+
 ### モジュール
 * keyin
 * li_socket
@@ -23,25 +24,38 @@ NNの入力はPiCameraからの画像，出力がモーター制御値である�
 
 が必要なモジュール.
 
+
 ### 手動操縦方法
-* ”a”をおすと，ロボットのmotorのoutputが大きくなる
-* ”ｚ”をおすと，ロボットのmotorのoutputが小さくなる
-* ”j”をおすと，ロボットの左のモーターの出力がplus 14の同時に,右のモーターの出力がマイナス14
-* "l"をおすと，ロボットの右のモーターの出力がplus 14の同時に,左のモーターの出力がマイナス14
+キーボードを用いてロボットを操縦する．
+
+* ”a”をおすと，モーター制御値が大きくなる
+* ”ｚ”をおすと，モーター制御値が小さくなる
+* ”j”をおすと，左のモーター制御値がplus 14の同時に,右のモーター制御値がマイナス14
+* "l"をおすと，右のモーター制御値がplus 14の同時に,左のモーターの出力がマイナス14
 * "k"をおすと，ボタン”ｊ”と”l”により変化した値がもとに戻す．
 
-buttunを押す瞬間，１次元画像データとモーターの出力を送る
+各キーを押す瞬間，１次元画像データとモーター制御値が
+socket通信を通じてDebianPC側に送られる．
 
 
 ## socket通信で作成された教師データ（csvファイル)
-socket通信でもらったデータがfolder「teacher_data_copmuter_part」の「teacher_data_folder」に保存されている．
-dataはRGB画像データの列の和とモーターの出力，「chainer_data_in.csv」「chainer_motor_out.csv」に保存されている．
+socket通信でもらったデータは
+teacher_data_copmuter_part/teacher_data_folderに保存さる．
+
+NNの入力と出力それぞれ下記ファイルに保存される．
+
+* chainer_data_in.csv：RGB１次元画像データ(縦方向和)
+* chainer_motor_out.csv：モーター制御値
 
 
-## ニューラルネットワーク(NN)の学習
-２のdataをそのままfolder「training_code」に移動して，「chainer_neural_network_hidden_1」
-「chainer_neural_network_hidden_2」を実行して，中間層１層と２層のニューラルネットワークを学習させる，
-結果が自動的にfolderを作って保存する．[NN_batch_training]のcodeはミニバッチ学習です．
+## NNの学習：重みとバイアスの更新
+上記２の教師データをそのままfolder「training_code」に移動して，
+「chainer_neural_network_hidden_1」あるいは
+「chainer_neural_network_hidden_2」を実行して，
+中間層１層と２層のニューラルネットワークを学習させる，
+結果が自動的にfolderを作って保存する．
+
+[NN_batch_training]のcodeはミニバッチ学習です．
 
 
 ## NNによるロボットの自律走行
