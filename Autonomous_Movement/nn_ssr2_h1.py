@@ -7,8 +7,8 @@ import chainer.links as L
 from chainer import Variable, optimizers, serializers, Chain
 import re
 import os
-import keyin # キーボード入力を監視するモジュール
-import motor1 # pwmでモーターを回転させるためのモジュール
+import modules.keyin as keyin # キーボード入力を監視するモジュール
+import modules.motor5a as mt # pwmでモーターを回転させるためのモジュール
 import time
 import pigpio
 from picamera.array import PiRGBArray
@@ -21,7 +21,7 @@ hidden_number = 1060
 output_number = 2
 
 
-folder = 'weight_hidden1_clockwise'
+folder = 'clockwise/hidden1'
 with open(folder +'/'+'data_in_max.csv','r') as f:
     reader = csv.reader(f)
     result = list(reader)
@@ -86,8 +86,8 @@ y_out = np.zeros((1,OUTPUT_UNIT))
 key = keyin.Keyboard()
 ch="c"
 print("Input q to stop.")
-mL=motor1.Lmotor(17)
-mR=motor1.Rmotor(18)
+mL=mt.Lmotor(17)
+mR=mt.Rmotor(18)
 
     
 #for cap in cam.capture_continuous(rawCapture, format="bgr", use_video_port="True"):

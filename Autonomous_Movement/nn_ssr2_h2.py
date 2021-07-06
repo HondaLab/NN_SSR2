@@ -8,20 +8,16 @@ from chainer import Variable, optimizers, serializers, Chain
 import re
 import os
 import keyin # キーボード入力を監視するモジュール
-import motor1 # pwmでモーターを回転させるためのモジュール
+import motor5a as mt # pwmでモーターを回転させるためのモジュール
 import time
 import pigpio
 from picamera.array import PiRGBArray
 from picamera import PiCamera
 from subprocess import Popen
 
-one_channel = 320
-input_number = one_channel*3
-hidden_number = 1050
-output_number = 2
 
 
-folder = 'weight_hidden1_anticlockwise'
+folder = 'clockwise/hidden2'
 with open(folder +'/'+'data_in_max.csv','r') as f:
     reader = csv.reader(f)
     result = list(reader)
@@ -43,6 +39,16 @@ for i in range(0,len(d_out_max)):
 
 RES_X=int( 320 )
 RES_Y=int( 320 )
+blue = np.zeros((1,RES_Y))
+green = np.zeros((1,RES_Y))
+red = np.zeros((1,RES_Y))
+
+input_number = RES_Y*3
+hidden_number1 = 1060
+hidden_number2 = 1040
+output_number = 2
+
+
 cam = PiCamera()
 cam.framerate = 30
 cam.awb_mode='auto'
@@ -59,25 +65,29 @@ cam.meter_mode = 'average' # average, spot, backlit, matrix
 cam.exposure_compensation = 0
 rawCapture = PiRGBArray(cam, size=(RES_X, RES_Y))
 
+prediction_data_in_0 = np.zeros((1,RES_Y*2))
 prediction_data_in = np.zeros((1,input_number))
 INPUT_UNIT = input_number  #入力層のユニット
-HIDDEN_UNIT = hidden_number #中間層のユニット
+HIDDEN_UNIT_1 = hidden_number1 #中間層のユニット
+HIDDEN_UNIT_2 = hidden_number2 #中間層のユニット
 OUTPUT_UNIT = output_number #出力層のユニット
         
 class MyChain_test(Chain):
     def __init__(self):
         super(MyChain_test, self).__init__(
-            l1=L.Linear(int(INPUT_UNIT),int(HIDDEN_UNIT)),
-            l2=L.Linear(int(HIDDEN_UNIT),int(OUTPUT_UNIT)),
+            l1=L.Linear(int(INPUT_UNIT),int(HIDDEN_UNIT_1)),
+            l2=L.Linear(int(HIDDEN_UNIT_1),int(HIDDEN_UNIT_2)),
+            l3=L.Linear(int(HIDDEN_UNIT_2),int(OUTPUT_UNIT)),
          )
         
     def fwd(self,x):
         h1 = F.relu(self.l1(x))
-        h2 = self.l2(h1)
-        return h2 
+        h2 = F.relu(self.l2(h1))
+        h3 = self.l3(h2)
+        return h3 
     
 nn_prediction = MyChain_test()
-file_name = 'optimum_weight_' + str(HIDDEN_UNIT)
+file_name = 'optimum_weight_' + str(HIDDEN_UNIT_1) + '_' + str(HIDDEN_UNIT_2)
 serializers.load_npz(folder + '/' + file_name, nn_prediction)
 
 
@@ -86,29 +96,27 @@ y_out = np.zeros((1,OUTPUT_UNIT))
 key = keyin.Keyboard()
 ch="c"
 print("Input q to stop.")
-mL=motor1.Lmotor(17)
-mR=motor1.Rmotor(18)
+mL=mt.Lmotor(17)
+mR=mt.Rmotor(18)
 
-ttt = 0
+    
 #for cap in cam.capture_continuous(rawCapture, format="bgr", use_video_port="True"):
 while ch!="q":
     ch = key.read()
     try:
-        if ttt == 3:
-            start_time = time.time()
         if ch == "q":
             break
         cam.capture(rawCapture, format="bgr", use_video_port=True)
         frame = rawCapture.array
         #frame = cap.array
-        for i in range(0,one_channel):
-            prediction_data_in[0,i] = sum(frame[-153:-85,i,0])
-            prediction_data_in[0,i+one_channel] = sum(frame[-153:-85,i,1])
-            prediction_data_in[0,i+one_channel+one_channel] = sum(frame[-153:-85,i,2])
-            
-            prediction_data_in[0,i] = prediction_data_in[0,i]/data_in_max[0,i]
-            prediction_data_in[0,i+one_channel] = prediction_data_in[0,i+one_channel]/data_in_max[0,i+one_channel]
-            prediction_data_in[0,i+one_channel+one_channel] = prediction_data_in[0,i+one_channel+one_channel]/data_in_max[0,i+one_channel+one_channel]
+        for i in range(0,RES_Y):
+            blue[0,i] = sum(frame[-153:-85,i,0])/data_in_max[0,i]
+            green[0,i] = sum(frame[-153:-85,i,1])/data_in_max[0,i+320]
+            red[0,i] = sum(frame[-153:-85,i,2])/data_in_max[0,i+640]
+        prediction_data_in_0[0,:] = np.append(blue,green)
+        prediction_data_in[0,:] = np.append(prediction_data_in_0,red)
+        #english333print(prediction_data_in.shape)
+        #prediction_data_in[0,i] = prediction_data_in[0,i]/data_in_max[0,i]
         x_in = [[]]
         for j in range(0,prediction_data_in.shape[1]):
             x_in[0].append(float(prediction_data_in[0][j]))
@@ -119,16 +127,12 @@ while ch!="q":
         yy = yy.split()  #yy is a list
         for k in range(0,len(yy)):
             y_out[0,k] = float(yy[k]) * data_out_max[0,k]        
-        left=round(y_out[0,0])*1
-        right=round(y_out[0,1])*1
+        left=y_out[0,0]
+        right=y_out[0,1]
         print("left : ",left,"   ","right : ",right)
         mL.run(left)
         mR.run(right)
         rawCapture.truncate(0) 
-        if ttt == 3:
-            end_time = time.time()
-            print(end_time-start_time)
-        ttt = ttt+1
     except KeyboardInterrupt:
         mL.run(0)
         mR.run(0)

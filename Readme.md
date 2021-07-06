@@ -58,17 +58,14 @@ NNの入力と出力それぞれ下記ファイルに保存される．
 [NN_batch_training]のcodeはミニバッチ学習です．
 
 
-## NNによるロボットの自律走行
+## NNによるロボットの自律走行(Autonomous Movement)
 学習結果の「data_in_max.csv」「data_out_max.csv」「optimum_weight_???」3つのfileを
-「Autonomous_Movement」の「anticlockwise」or [clockwise]の
-「weight_hidden1_anticlockwise」or「weight_hidden2_anticlockwise」or[weight_hidden1_clockwise]or
-[weight_hidden2_clockwise] に移動して
-「neural_network_hidden1_anticlockwise」と「neural_network_hidden2_clockwise」で学習結果により，
-ロボットが動く．こちらの部分はロボットの中に実行する．「keyin」「motor5a」は必要なpackage.
+「anticlockwise」/ [clockwise]の「hiddenX」に移動して
+「nn_ssr2_hX.py」で学習結果により，ロボットが動く．
 
 ## 複数の教師データを融合する
-folder「data_making」の「train_data_make_version2」を実行して，folder「１」と「２」等等にある教師デーダを
-融合する．
+folder「data_making」の「train_data_make_version2」を実行して，
+folder「１」と「２」等等にある教師デーダを融合する．
 
 ## teacher data example:
 
