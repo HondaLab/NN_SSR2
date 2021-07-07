@@ -3,10 +3,15 @@
 PiCameraの画像を主な入力データとする，ニューラルネットワーク(NN)を用いる．
 NNの構成フレームワークとしてChainerを用いる．
 
+全体は大きく３つの部分から構成されている．
+* データ収集(Data_Collection)
+* 学習(Learning)
+* 自律行動(Autonomous_Movement)
 
-## ロボットのラジコン操縦による，教師データの作成
-* Raspi@SSR2:teacher_data_robot_part/NN_teacher_data_collection_by_socket.py
-* DebianPC: teacher_data_copmuter_part/socket_recv.py
+
+## ロボットのラジコン操縦による，教師データの収集(Data_Collection)
+* Raspi@SSR2:robot/NN_teacher_data_collection_by_socket.py
+* DebianPC: copmuter/socket_recv.py
 
 上記２プログラムを両方同時に実行する．
 
@@ -38,18 +43,22 @@ NNの入力はPiCameraからの画像，出力がモーター制御値である�
 socket通信を通じてDebianPC側に送られる．
 
 
-## socket通信で作成された教師データ（csvファイル)
-socket通信でもらったデータは
-teacher_data_copmuter_part/teacher_data_folderに保存さる．
+### socket通信で作成された教師データ（csvファイル)
+socket通信で受信したデータは
+copmuter/teacher_data_folderに保存さる．
 
 NNの入力と出力それぞれ下記ファイルに保存される．
 
 * chainer_data_in.csv：RGB１次元画像データ(縦方向和)
 * chainer_motor_out.csv：モーター制御値
 
+### 複数の教師データを融合する
+folder「Data_Integration」の「train_data_make_version2」を実行して，
+folder「１」と「２」等等にある?教師デーダを統合する．
 
-## NNの学習：重みとバイアスの更新
-上記２の教師データをそのままfolder「training_code」に移動して，
+
+## 学習：重みとバイアスの更新(Learning)
+上記２の教師データをそのままfolder「Learning」に移動して，
 「chainer_neural_network_hidden_1」あるいは
 「chainer_neural_network_hidden_2」を実行して，
 中間層１層と２層のニューラルネットワークを学習させる，
@@ -58,14 +67,11 @@ NNの入力と出力それぞれ下記ファイルに保存される．
 [NN_batch_training]のcodeはミニバッチ学習です．
 
 
-## NNによるロボットの自律走行(Autonomous Movement)
+## NNによるロボットの自律行動(Autonomous_Movement)
 学習結果の「data_in_max.csv」「data_out_max.csv」「optimum_weight_???」3つのfileを
 「anticlockwise」/ [clockwise]の「hiddenX」に移動して
-「nn_ssr2_hX.py」で学習結果により，ロボットが動く．
+「nn_ssr2_hX.py」で学習結果により，ロボットが自律行動を開始する．
 
-## 複数の教師データを融合する
-folder「data_making」の「train_data_make_version2」を実行して，
-folder「１」と「２」等等にある教師デーダを融合する．
 
 ## teacher data example:
 
