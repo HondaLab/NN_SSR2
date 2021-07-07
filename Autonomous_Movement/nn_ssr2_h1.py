@@ -7,8 +7,8 @@ import chainer.links as L
 from chainer import Variable, optimizers, serializers, Chain
 import re
 import os
-import keyin # キーボード入力を監視するモジュール
-import motor1 # pwmでモーターを回転させるためのモジュール
+import modules.keyin as keyin # キーボード入力を監視するモジュール
+import modules.motor5a as mt # pwmでモーターを回転させるためのモジュール
 import time
 import pigpio
 from picamera.array import PiRGBArray
@@ -17,11 +17,11 @@ from subprocess import Popen
 
 one_channel = 320
 input_number = one_channel*3
-hidden_number = 1050
+hidden_number = 1060
 output_number = 2
 
 
-folder = 'weight_hidden1_anticlockwise'
+folder = 'clockwise/hidden1'
 with open(folder +'/'+'data_in_max.csv','r') as f:
     reader = csv.reader(f)
     result = list(reader)
@@ -86,16 +86,14 @@ y_out = np.zeros((1,OUTPUT_UNIT))
 key = keyin.Keyboard()
 ch="c"
 print("Input q to stop.")
-mL=motor1.Lmotor(17)
-mR=motor1.Rmotor(18)
+mL=mt.Lmotor(17)
+mR=mt.Rmotor(18)
 
-ttt = 0
+    
 #for cap in cam.capture_continuous(rawCapture, format="bgr", use_video_port="True"):
 while ch!="q":
     ch = key.read()
     try:
-        if ttt == 3:
-            start_time = time.time()
         if ch == "q":
             break
         cam.capture(rawCapture, format="bgr", use_video_port=True)
@@ -125,10 +123,6 @@ while ch!="q":
         mL.run(left)
         mR.run(right)
         rawCapture.truncate(0) 
-        if ttt == 3:
-            end_time = time.time()
-            print(end_time-start_time)
-        ttt = ttt+1
     except KeyboardInterrupt:
         mL.run(0)
         mR.run(0)

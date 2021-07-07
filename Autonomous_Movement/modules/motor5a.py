@@ -1,11 +1,13 @@
 #!/usr/bin/python3
 
-# motor1.py
-# 2018-11-5
+# motor5a.py
+# Calibrated by tanh function
+# 2021 4/17
 # Yasushi Honda
 
 import pigpio
 import time
+import numpy as np
 
 MIN_WIDTH=1000
 MID_WIDTH=1500
@@ -19,39 +21,41 @@ class Motor:
       if not self.pi.connected:
          exit()
       self.pi.set_servo_pulsewidth(gpio, MID_WIDTH)
-      self.SLEEP=0.02
-      #time.sleep(0.1)
 
    def move(self,power):
       self.pi.set_servo_pulsewidth(self.gpio, MID_WIDTH+power)
-      time.sleep(self.SLEEP)    
 
    def stop(self):
       self.pi.stop()
 
 class Lmotor(Motor):
    def run(self,power):
-      self.move(-power*5)
+      output=62*np.arctanh(-power/101)+6*np.sign(-power)
+      self.move(output)
 
 class Rmotor(Motor):
    def run(self,power):
-      self.move(power*5)
+      output=62*np.arctanh(power/101)+6*np.sign(power)
+      self.move(output)
        
 if __name__=='__main__':
+   # Motor output
+   OUTPUT=-20.00
 
-   # モーター出力最小値と最大値
-   MIN=-100
-   MAX=100
+   # Length of time
+   Time_Length= 30.0
+
+   # 停止の仕方のメッセージ表示
+   print("Robot runs only %5.2f sec." % Time_Length)
+
 
    # rate調整用の待ち時間(秒)
-   SLEEP=0.02
+   SLEEP=0.0333
 
-   # LeftモーターをGPIO=18に、Rightモーターを17につなぐ。
-   motorL = Lmotor(18)
-   motorR = Rmotor(17)
+   # LeftモーターをGPIO=17に、Rightモーターを18につなぐ。
+   motorL = Lmotor(17)
+   motorR = Rmotor(18)
    
-   # 停止の仕方のメッセージ表示
-   print("Robot runs only 1sec.")
 
    # 左右のモーター出力をゼロに初期化する。
    motorL.run(0)
@@ -63,23 +67,20 @@ if __name__=='__main__':
    right=0
    start=time.time()
    now=start
-   # 1秒間だけモーターを回す
-   while now-start<1 :
+   while now-start<Time_Length:
+      left=OUTPUT
       now=time.time() 
+      print("\r %5.2f/%5.2f %5.2f" %(now-start,Time_Length,left),end="")
 
-      left=-20
-      if left<MIN or left>MAX:
-            left = MIN
+      right=left
       motorL.run(left)
-
-      right=20
-      if right<MIN or right>MAX:
-            right = MIN
       motorR.run(right)
 
       # 更新をSLEEP秒だけ待って、rateを調節する。
       time.sleep(SLEEP)
 
+
+   print("\n")
    # モーター出力をゼロにもどして止める
    motorL.run(0)
    motorR.run(0)
