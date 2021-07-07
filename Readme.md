@@ -9,7 +9,7 @@ NNの構成フレームワークとしてChainerを用いる．
 * 自律行動(Autonomous_Movement)
 
 
-## ロボットのラジコン操縦による，教師データの収集(Data_Collection)
+## 1.ロボットのラジコン操縦による，教師データの収集(Data_Collection)
 * Raspi@SSR2:robot/NN_teacher_data_collection_by_socket.py
 * DebianPC: copmuter/socket_recv.py
 
@@ -57,7 +57,7 @@ folder「Data_Integration」の「train_data_make_version2」を実行して，
 folder「１」と「２」等等にある?教師デーダを統合する．
 
 
-## 学習：重みとバイアスの更新(Learning)
+## 2.学習：重みとバイアスの更新(Learning)
 上記２の教師データをそのままfolder「Learning」に移動して，
 「chainer_neural_network_hidden_1」あるいは
 「chainer_neural_network_hidden_2」を実行して，
@@ -67,7 +67,7 @@ folder「１」と「２」等等にある?教師デーダを統合する．
 [NN_batch_training]のcodeはミニバッチ学習です．
 
 
-## NNによるロボットの自律行動(Autonomous_Movement)
+## 3.NNによるロボットの自律行動(Autonomous_Movement)
 学習結果の「data_in_max.csv」「data_out_max.csv」「optimum_weight_???」3つのfileを
 「anticlockwise」/ [clockwise]の「hiddenX」に移動して
 「nn_ssr2_hX.py」で学習結果により，ロボットが自律行動を開始する．
