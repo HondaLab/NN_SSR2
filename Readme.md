@@ -14,19 +14,19 @@ NNの入力として，[PiCamera](https://github.com/HondaLab/camera-on-raspi/tr
 
 
 ## 1.ロボットのラジコン操縦による，教師データの収集(Data_Collection)
-* Raspi@SSR2:robot/NN_teacher_data_collection_by_socket.py
-* DebianPC: copmuter/socket_recv.py
+教師データをつくるためには２つのプログラムを実行する必要がある．
+
+* robot/NN_teacher_data_collection_by_socket.py （ロボット(ラズパイ)で実行）
+* copmuter/socket_recv.py （データを受け取るPC(Debian)で実行）
 
 上記２プログラムを両方同時に実行する．
-
-ラジコンで人間が手動でロボットを制御することで，NNの教師データを作成する．
+その後，ラジコンで人間が手動でロボットを操縦することで，NNの教師データを作成する．
 NNの入力はPiCameraからの画像，出力がモーター制御値である．
-手動制御したモーター制御値を正解値とする回帰問題として自律走行を考える．
+手動操縦したモーター制御値を正解値とする回帰問題として自律走行を考える．
 
 
-### モジュール
+### モジュール(modules)
 * keyin
-* li_socket
 * motor5a
 * vl53_3a
 * li_socket
