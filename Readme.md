@@ -1,12 +1,15 @@
 # 概要
-スキッドステアリングロボット([SSR2](https://github.com/HondaLab/SSR2))の自律走行実現する．
-PiCameraの画像を主な入力データとする，ニューラルネットワーク(NN)を用いる．
-NNの構成フレームワークとしてChainerを用いる．
+スキッドステアリングロボット([SSR2](https://github.com/HondaLab/SSR2))の自律行動の
+ための知能を，ニューラルネットワーク(NN)を用いて構成する．
+NNの入力として，PiCameraの画像とすし，左右２つのモーター制御値を出力する．
+フレームワークとして[Chainer](https://tutorials.chainer.org/ja/)を用いる．
 
-全体は大きく３つの部分から構成されている．
+全体は大きく３つの部分から構成される．
 * データ収集(Data_Collection)
 * 学習(Learning)
 * 自律行動(Autonomous_Movement)
+
+以下にそれぞれを簡単に説明する．
 
 
 ## 1.ロボットのラジコン操縦による，教師データの収集(Data_Collection)
