@@ -15,9 +15,47 @@ from picamera.array import PiRGBArray
 from picamera import PiCamera
 from subprocess import Popen
 
+is_right = 'n'
+hidden_num_information = input("please tell me the number of hidden layer one after you checked your weight file name : ")
+while 1:
+    for i in range(100,2000):
+        if str(hidden_num_information) == str(i):
+            is_right = 'y'
+    if str(is_right) == 'y':
+        break
+    else:
+        print("The information what you input can not read , please input it agian")
+        hidden_num_information = input("please tell me the number of hidden layer one after you checked your weight file name : ")
+hidden_number1 = hidden_num_information
+
+is_right = 'n'
+hidden_num_information = input("please tell me the number of hidden layer two after you checked your weight file name : ")
+while 1:
+    for i in range(100,2000):
+        if str(hidden_num_information) == str(i):
+            is_right = 'y'
+    if str(is_right) == 'y':
+        break
+    else:
+        print("The information what you input can not read , please input it agian")
+        hidden_num_information = input("please tell me the number of hidden layer two after you checked your weight file name : ")
+hidden_number2 = hidden_num_information
 
 
-folder = 'clockwise/hidden2'
+wise_direction = input("Which direction do you want to choose between anticlock and clock : (a/c)")
+while 1:
+    if str(wise_direction) == 'a' or str(wise_direction) == 'c':
+        break
+    else:
+        print("The information what you input can not read , please input it agian")
+        wise_direction = input("Which direction do you want to choose between anticlock and clock : (a/c)")
+
+if str(wise_direction) == 'c':
+    folder = 'clockwise/hidden1'
+if str(wise_direction) == 'a':
+    folder = 'anticlockwise/hidden1'
+
+
 with open(folder +'/'+'data_in_max.csv','r') as f:
     reader = csv.reader(f)
     result = list(reader)
@@ -44,8 +82,6 @@ green = np.zeros((1,RES_Y))
 red = np.zeros((1,RES_Y))
 
 input_number = RES_Y*3
-hidden_number1 = 1060
-hidden_number2 = 1040
 output_number = 2
 
 
@@ -129,7 +165,16 @@ while ch!="q":
             y_out[0,k] = float(yy[k]) * data_out_max[0,k]        
         left=y_out[0,0]
         right=y_out[0,1]
-        print("left : ",left,"   ","right : ",right)
+        print('\r',end = '')
+        print("left : ",left,"       ","right : ",right,end = '')
+        if left >= 100:
+            left = 99
+        if left <= -100:
+            left = -99
+        if right >= 100:
+            right = 99
+        if right <= -100:
+            right = -99
         mL.run(left)
         mR.run(right)
         rawCapture.truncate(0) 
@@ -139,7 +184,7 @@ while ch!="q":
         rawCapture.truncate(0)
         break
 
-        
+rawCapture.truncate(0)       
 mL.run(0)
 mR.run(0)
-rawCapture.truncate(0) 
+ 
