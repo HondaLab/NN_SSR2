@@ -5,19 +5,18 @@ NNの入力として，[PiCamera](https://github.com/HondaLab/camera-on-raspi/tr
 画像を用いる．NNは左右２つのモーター制御値を出力する．
 フレームワークとして[Chainer](https://tutorials.chainer.org/ja/)を用いる．
 
-このrepositoryは大きく３つの部分から構成される．
-* データ収集(Data_Collection)
+このrepositoryは大きく2つの部分から構成される．
 * 学習(Learning)
 * 自律行動(Autonomous_Movement)
 
 以下にそれぞれを簡単に説明する．
 
-
-## 1.ロボットのラジコン操縦による，教師データの収集(Data_Collection)
+## 1.Learning
+### a.ロボットのラジコン操縦による，教師データの収集
 教師データをつくるためには２つのプログラムを実行する必要がある．
 
-* robot/NN_teacher_data_collection_by_socket.py （ロボット(ラズパイ)で実行）
-* copmuter/socket_recv.py （データを受け取るPC(Debian)で実行）
+* rc_robot.py （ロボット(ラズパイ)で実行）
+* data_collection.py （データを受け取るPC(Debian)で実行）
 
 上記２プログラムを両方同時に実行する．
 その後，ラジコンで人間が手動でロボットを操縦することで，NNの教師データを作成する．
@@ -25,16 +24,8 @@ NNの入力はPiCameraからの画像，出力がモーター制御値である�
 手動操縦したモーター制御値を正解値とする回帰問題として自律走行を考える．
 
 
-### モジュール(modules)
-* keyin
-* motor5a
-* vl53_3a
-* li_socket
 
-が必要なモジュール.
-
-
-### 手動操縦方法
+#### 手動操縦方法
 キーボードを用いてロボットを操縦する．
 
 * ”a”をおすと，モーター制御値が大きくなる
@@ -47,31 +38,29 @@ NNの入力はPiCameraからの画像，出力がモーター制御値である�
 socket通信を通じてDebianPC側に送られる．
 
 
-### socket通信で作成された教師データ（csvファイル)
+#### socket通信で作成された教師データ（csvファイル)
 socket通信で受信したデータは
-copmuter/teacher_data_folderに保存さる．
-
 NNの入力と出力それぞれ下記ファイルに保存される．
 
 * chainer_data_in.csv：RGB１次元画像データ(縦方向和)
 * chainer_motor_out.csv：モーター制御値
 
-### 複数の教師データを融合する
+#### 複数の教師データを融合する
+データ収集が１回だけの場合には必要ない．
+
+データの収集を複数回に分けて行った場合は，それらを統合できる．
 folder「Data_Integration」の「train_data_make_version2」を実行して，
 folder「１」と「２」等等にある?教師デーダを統合する．
 
 
-## 2.学習：重みとバイアスの更新(Learning)
-上記２の教師データをそのままfolder「Learning」に移動して，
-「chainer_neural_network_hidden_1」あるいは
-「chainer_neural_network_hidden_2」を実行して，
+### b.学習：重みとバイアスの更新(Learning)
+learn_h1.py あるいは learn_h2.py を実行して，
 中間層１層と２層のニューラルネットワークを学習させる，
-結果が自動的にfolderを作って保存する．
 
 [NN_batch_training]のcodeはミニバッチ学習です．
 
 
-## 3.NNによるロボットの自律行動(Autonomous_Movement)
+## 2.NNによるロボットの自律行動(Autonomous_Movement)
 学習結果の「data_in_max.csv」「data_out_max.csv」「optimum_weight_???」3つのfileを
 「anticlockwise」/ [clockwise]の「hiddenX」に移動して
 「nn_ssr2_hX.py」で学習結果により，ロボットが自律行動を開始する．
