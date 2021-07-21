@@ -12,37 +12,6 @@ import time
 import pandas as pd
 
 
-file_name = os.path.basename('_chainer_neural_network_hidden_1')
-folder = 'output' + file_name
-if not os.path.exists(folder):
-    os.mkdir(folder)
-
-'''
-data_in = pd.read_csv("testdata_in.csv")#データの読み込み
-data_out = pd.read_csv("testdata_out.csv")
-
-data_in_col = len(data_in.columns)
-data_in_len = len(data_in)                   #データの行数を取得
-data_out_col = len(data_out.columns)
-data_out_len = len(data_out)
-
-for i in range(0,data_in_col):
-    data_mean = data_in.iloc[:,i].mean()
-    data_stand = data_in.iloc[:,i].std()
-    for j in range(0,data_in_len):
-        data_in.iloc[j,i] = (data_in.iloc[j,i] - data_mean)/data_stand
-    
-for i in range(0,data_out_col):
-    data_mean = data_out.iloc[:,i].mean()
-    data_stand = data_out.iloc[:,i].std()
-    for j in range(0,data_out_len):
-        data_out.iloc[j,i] = (data_out.iloc[j,i] - data_mean)/data_stand 
-'''
-
-#path1 = "prediction_data_in.csv"
-#path2 = "prediction_data_out.csv"
-#path1 = "chainer_data_in_test.csv"
-#path2 = "chainer_motor_out_test.csv"
 path1 = "chainer_data_in.csv"
 path2 = "chainer_motor_out.csv"
 
@@ -81,7 +50,7 @@ for i in range(0,data_out.shape[1]):
         ytrain[v][i] = data_out[v,i]/data_out_max
         #data_out[v,i] = (data_out[v,i] - data_mean)/data_stand
         
-f = open(folder+'/'+'data_in_max.csv','w',encoding='utf-8')
+f = open('data_in_max.csv','w',encoding='utf-8')
 csv_writer = csv.writer(f)       
 csv_writer.writerow(data_in_max_list)        
 f.close()
@@ -147,14 +116,14 @@ def net_train(hidden_number,EPOCH,STOP_ERROR,ALPHA,BETA1,BETA2,EPS,ETA,WEIGHT_RA
             loss_limit_flag = loss_limit_flag + 1
         if loss_limit_flag > flag_limit:
             file_name = 'optimum_weight_'+ str(hidden_number)
-            serializers.save_npz(folder + '/' + file_name, nn)
+            serializers.save_npz(file_name, nn)
             #print('break:',i)
             break
-        if i == (epoch - 1):
-            file_name = 'optimum_weight_'+ str(hidden_number)
-            serializers.save_npz(folder + '/' + file_name, nn)
-            #print('break:最大学習回数に至った',epoch)
-            break
+
+    file_name = 'optimum_weight_'+ str(hidden_number)
+    serializers.save_npz(file_name, nn)
+    #print('break:最大学習回数に至った',epoch)
+
     #plt.plot(range(0,len(loss_list)),loss_list)
     return np.abs(loss)
     #plt.scatter(1,loss_list)
@@ -163,12 +132,12 @@ def net_train(hidden_number,EPOCH,STOP_ERROR,ALPHA,BETA1,BETA2,EPS,ETA,WEIGHT_RA
 
 """read test file change to test value"""
 
-with open(folder+'/'+'data_in_max.csv','r') as f:
+with open('data_in_max.csv','r') as f:
     reader = csv.reader(f)
     d = list(reader)
     d_in_max = d[0]   #is list
     
-with open(folder+'/'+'data_out_max.csv','r') as f2:
+with open('data_out_max.csv','r') as f2:
     reader2 = csv.reader(f2)
     d = list(reader2)
     d_out_max = d[0]#is list
@@ -181,10 +150,8 @@ for i in range(0,len(d_out_max)):
     Data_out_max[0,i] = d_out_max[i]
 
 
-#path1 = "prediction_data_in.csv"
 prediction_data_in = pd.read_csv(path1)
 prediction_data_in = prediction_data_in.values
-#path2 = "prediction_data_out.csv"
 prediction_data_out = pd.read_csv(path2)
 prediction_data_out = prediction_data_out.values
 #print(prediction_data_out.shape) #dataのサイズを出力してcheckしてください
@@ -215,7 +182,7 @@ def net_test(HiddenNumber):
     
     nn_prediction = MyChain_test()
     file_name = 'optimum_weight_' + str(HIDDEN_UNIT)
-    serializers.load_npz(folder + '/' + file_name, nn_prediction)
+    serializers.load_npz(file_name, nn_prediction)
     
     gpu_device = 0
     cuda.get_device(gpu_device).use()
@@ -275,7 +242,6 @@ end_time = time.time()
 loop1_time = end_time - start_time
 
 
-
 hidden_num_loss_test = np.zeros((1,len(hidden_num)))
 min_error_test = 99999
 min_error_location_test = 0
@@ -308,7 +274,7 @@ while(minute >= 60):
 print("Spend Time : ")
 print(str(hour) + ":"+str(minute) + ":" + str(second))
 
-
+'''
 plt.figure(1)
 fig = plt.figure(figsize=(figsize_x,figsize_y))
 ax = fig.add_subplot(111)
@@ -372,6 +338,7 @@ plt.xlabel("Time")
 plt.ylabel("Test data's right motor output of network based on test data's best weights and b ")
 plt.savefig(folder+'/'+'TestWeight_rightOutput.pdf',bbox_inches='tight')
 #plt.show()
+'''
 
 
 print("Output Error of Train Data : ",out_error)

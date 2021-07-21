@@ -1,6 +1,6 @@
 import socket
 
-robot_address = '172.16.7.107'
+robot_address = '172.16.7.58'
 sensor_port = 50005
 
 class UDP_Send():
@@ -23,10 +23,10 @@ class UDP_Send():
 class UDP_Recv():
 	def __init__(self,addr,port):
 		self.sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
-		self.sock.bind(addr,port)
+		self.sock.bind((addr,port))
 		self.sock.setblocking(0)
 	def recv(self):
-		message = self.sock.recv(1024).decode('utf-8')
+		message = self.sock.recv(15260).decode('utf-8')
 		slist = message.split(',')
 		a = [float(s) for s in slist]
 		return a

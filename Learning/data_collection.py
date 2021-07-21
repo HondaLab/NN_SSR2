@@ -1,16 +1,11 @@
+import modules.li_socket as sk
+import modules.keyin as keyin
 import socket
-import li_socket as sk
 import time
-import keyin
 import matplotlib.pyplot as plt
 import numpy as np
 import csv
 import os
-
-file_name = os.path.basename('_data_folder')
-folder = 'teacher' + file_name
-if not os.path.exists(folder):
-    os.mkdir(folder)
 
 udp = sk.UDP_Recv(sk.robot_address,sk.sensor_port)
 data = [0]
@@ -29,9 +24,9 @@ while ch !='q':
         time.sleep(0.0001)
     ch = key.read()
 
-f = open(folder+'/'+'chainer_data_in.csv','w',encoding='utf-8')
+f = open('chainer_data_in.csv','w',encoding='utf-8')
 csv_writer1 = csv.writer(f) 
-f2 = open(folder+'/'+'chainer_motor_out.csv','w',encoding='utf-8')
+f2 = open('chainer_motor_out.csv','w',encoding='utf-8')
 csv_writer2 = csv.writer(f2) 
 for i in range(0,len(teacher_data_list)):
     dd = teacher_data_list[i]

@@ -7,8 +7,9 @@
 # sudo pigpiod
 # pyhton3 hjkl1.py 
 
-import keyin # キーボード入力を監視するモジュール
-import motor5a # pwmでモーターを回転させるためのモジュール
+import modules.keyin as keyin # キーボード入力を監視するモジュール
+import modules.motor5a as mt # pwmでモーターを回転させるためのモジュール
+import modules.li_socket as sk
 #import modules.vl53_4a as lidar
 import time
 import pigpio
@@ -16,13 +17,9 @@ from picamera.array import PiRGBArray
 from picamera import PiCamera
 from subprocess import Popen
 import numpy as np
-#import sock4robot_7a as sk
 
-#import vl53_4a as lidar
-#tofR,tofL,tofC=lidar.start()
 
 import socket
-import li_socket as sk
 import time
 #LI44 = '172.16.7.44'
 zelkova58 = '172.16.7.58'
@@ -87,8 +84,8 @@ if __name__=="__main__":
    right_flag = 0
    left_flag = 0
 
-   mL=motor5a.Lmotor(17)
-   mR=motor5a.Rmotor(18)
+   mL=mt.Lmotor(17)
+   mR=mt.Rmotor(18)
    
    key = keyin.Keyboard()
    ch="c"

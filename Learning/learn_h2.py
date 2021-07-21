@@ -13,12 +13,6 @@ import pandas as pd
 from mpl_toolkits.mplot3d import Axes3D
 
 
-file_name = os.path.basename('_chainer_neural_network_hidden_change_hidden_number_2')
-folder = 'output' + file_name
-if not os.path.exists(folder):
-    os.mkdir(folder)
-
-
 path1 = "chainer_data_in.csv"
 path2 = "chainer_motor_out.csv"
 
@@ -51,11 +45,11 @@ for i in range(0,data_out.shape[1]):
         ytrain[v][i] = data_out[v,i]/data_out_max
         #data_out[v,i] = (data_out[v,i] - data_mean)/data_stand
         
-f = open(folder+'/'+'data_in_max.csv','w',encoding='utf-8')
+f = open('data_in_max.csv','w',encoding='utf-8')
 csv_writer = csv.writer(f)       
 csv_writer.writerow(data_in_max_list)        
 f.close()
-f2 = open(folder+'/'+'data_out_max.csv','w',encoding='utf-8')
+f2 = open('data_out_max.csv','w',encoding='utf-8')
 csv_writer2 = csv.writer(f2)
 csv_writer2.writerow(data_out_max_list)      
 f2.close()
@@ -123,14 +117,14 @@ def net_train(hidden_number1,hidden_number2,EPOCH,STOP_ERROR,ALPHA,BETA1,BETA2,E
             loss_limit_flag = loss_limit_flag + 1
         if loss_limit_flag > flag_limit:
             file_name = 'optimum_weight_'+ str(hidden_number1)+ "_" + str(hidden_number2)
-            serializers.save_npz(folder + '/' + file_name, nn)
+            serializers.save_npz(file_name, nn)
             #print('break:',i)
             break
-        if i == (epoch - 1):
-            file_name = 'optimum_weight_'+ str(hidden_number1)+ "_" + str(hidden_number2)
-            serializers.save_npz(folder + '/' + file_name, nn)
-            #print('break:最大学習回数に至った',epoch)
-            break
+
+    file_name = 'optimum_weight_'+ str(hidden_number1)+ "_" + str(hidden_number2)
+    serializers.save_npz(file_name, nn)
+    #print('break:最大学習回数に至った',epoch)
+
     #plt.plot(range(0,len(loss_list)),loss_list)
     #plt.show()
     return np.abs(loss)
@@ -140,12 +134,12 @@ def net_train(hidden_number1,hidden_number2,EPOCH,STOP_ERROR,ALPHA,BETA1,BETA2,E
 
 """read test file change to test value"""
 
-with open(folder+'/'+'data_in_max.csv','r') as f:
+with open('data_in_max.csv','r') as f:
     reader = csv.reader(f)
     d = list(reader)
     d_in_max = d[0]   #is list
     
-with open(folder+'/'+'data_out_max.csv','r') as f2:
+with open('data_out_max.csv','r') as f2:
     reader2 = csv.reader(f2)
     d = list(reader2)
     d_out_max = d[0]#is list
@@ -199,7 +193,7 @@ def net_test(HiddenNumber_1,HiddenNumber_2):
     xp2 = cuda.cupy
     
     file_name = 'optimum_weight_' + str(HIDDEN_UNIT_1)+ "_" + str(HIDDEN_UNIT_2)
-    serializers.load_npz(folder + '/' + file_name, nn_prediction)
+    serializers.load_npz(file_name, nn_prediction)
 
     #y_out = []
     y_out = np.zeros((prediction_data_out.shape[0],prediction_data_out.shape[1]))
@@ -301,7 +295,7 @@ print(str(hour) + ":"+str(minute) + ":" + str(second))
     
 
 
-
+'''
 figsize_x = 15
 figsize_y = 10
 
@@ -360,7 +354,6 @@ plt.savefig(folder+'/'+'TestError_Hidden_hidden_2.pdf',bbox_inches='tight')
 
 
 
-
 plt.figure(5)
 fig = plt.figure(figsize=(figsize_x_2,figsize_y_2))
 ax = fig.add_subplot(111)
@@ -382,6 +375,7 @@ plt.xlabel("Time")
 plt.ylabel("Test data's right motor output of network based on test data's best weights and b ")
 plt.savefig(folder+'/'+'TestWeight_rightOutput_hidden_2.pdf',bbox_inches='tight')
 #plt.show()
+'''
 
 print("Output Error of Train Data : ",out_error)
 print("The best hidden layer number of Train Data : ","hidden1 : ",min_error_location_train_hidden1,",","hidden2 : ",min_error_location_train_hidden2)
