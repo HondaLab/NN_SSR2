@@ -15,13 +15,37 @@ from picamera.array import PiRGBArray
 from picamera import PiCamera
 from subprocess import Popen
 
+is_right = 'n'
+hidden_num_information = input("please tell me the number of hidden layer after you checked your weight file name : ")
+while 1:
+    for i in range(100,2000):
+        if str(hidden_num_information) == str(i):
+            is_right = 'y'
+    if str(is_right) == 'y':
+        break
+    else:
+        print("The information what you input can not read , please input it agian")
+        hidden_num_information = input("please tell me the number of hidden layer after you checked your weight file name : ")
+
 one_channel = 320
 input_number = one_channel*3
-hidden_number = 1060
+hidden_number = int(hidden_num_information)
 output_number = 2
 
+wise_direction = input("Which direction do you want to choose between anticlock and clock : (a/c)")
+while 1:
+    if str(wise_direction) == 'a' or str(wise_direction) == 'c':
+        break
+    else:
+        print("The information what you input can not read , please input it agian")
+        wise_direction = input("Which direction do you want to choose between anticlock and clock : (a/c)")
 
-folder = 'clockwise/hidden1'
+if str(wise_direction) == 'c':
+    folder = 'clockwise/hidden1'
+if str(wise_direction) == 'a':
+    folder = 'anticlockwise/hidden1'
+
+
 with open(folder +'/'+'data_in_max.csv','r') as f:
     reader = csv.reader(f)
     result = list(reader)
@@ -119,7 +143,16 @@ while ch!="q":
             y_out[0,k] = float(yy[k]) * data_out_max[0,k]        
         left=round(y_out[0,0])*1
         right=round(y_out[0,1])*1
-        print("left : ",left,"   ","right : ",right)
+        print('\r',end = '')
+        print("left : ",left,"      ","right : ",right,end = '')
+        if left >= 100:
+            left = 99
+        if left <= -100:
+            left = -99
+        if right >= 100:
+            right = 99
+        if right <= -100:
+            right = -99
         mL.run(left)
         mR.run(right)
         rawCapture.truncate(0) 
@@ -129,7 +162,7 @@ while ch!="q":
         rawCapture.truncate(0)
         break
 
-        
+rawCapture.truncate(0)         
 mL.run(0)
 mR.run(0)
-rawCapture.truncate(0) 
+
