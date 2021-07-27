@@ -16,7 +16,7 @@ from picamera import PiCamera
 from subprocess import Popen
 
 view_upper=130
-view_lower=220
+view_lower=270
 
 one_channel = 320
 input_number = one_channel*3
