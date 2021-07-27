@@ -15,38 +15,13 @@ from picamera.array import PiRGBArray
 from picamera import PiCamera
 from subprocess import Popen
 
-is_right = 'n'
-hidden_num_information = input("please tell me the number of hidden layer after you checked your weight file name : ")
-while 1:
-    for i in range(100,2000):
-        if str(hidden_num_information) == str(i):
-            is_right = 'y'
-    if str(is_right) == 'y':
-        break
-    else:
-        print("The information what you input can not read , please input it agian")
-        hidden_num_information = input("please tell me the number of hidden layer after you checked your weight file name : ")
 
 one_channel = 320
 input_number = one_channel*3
-hidden_number = int(hidden_num_information)
+hidden_number = 1100
 output_number = 2
 
-wise_direction = input("Which direction do you want to choose between anticlock and clock : (a/c)")
-while 1:
-    if str(wise_direction) == 'a' or str(wise_direction) == 'c':
-        break
-    else:
-        print("The information what you input can not read , please input it agian")
-        wise_direction = input("Which direction do you want to choose between anticlock and clock : (a/c)")
-
-if str(wise_direction) == 'c':
-    folder = 'clockwise/hidden1'
-if str(wise_direction) == 'a':
-    folder = 'anticlockwise/hidden1'
-
-
-with open(folder +'/'+'data_in_max.csv','r') as f:
+with open('data_in_max.csv','r') as f:
     reader = csv.reader(f)
     result = list(reader)
     d_in_max = result[0]   #is list
@@ -54,7 +29,7 @@ data_in_max = np.zeros((1,len(d_in_max)))
 for i in range(0,len(d_in_max)):
     data_in_max[0,i] = d_in_max[i]
     
-with open(folder +'/'+'data_out_max.csv','r') as f:
+with open('data_out_max.csv','r') as f:
     reader = csv.reader(f)
     result = list(reader)
     d_out_max = result[0]   #is list
@@ -102,7 +77,7 @@ class MyChain_test(Chain):
     
 nn_prediction = MyChain_test()
 file_name = 'optimum_weight_' + str(HIDDEN_UNIT)
-serializers.load_npz(folder + '/' + file_name, nn_prediction)
+serializers.load_npz(file_name, nn_prediction)
 
 
 y_out = np.zeros((1,OUTPUT_UNIT))
