@@ -15,6 +15,8 @@ from picamera.array import PiRGBArray
 from picamera import PiCamera
 from subprocess import Popen
 
+view_upper=130
+view_lower=220
 
 one_channel = 320
 input_number = one_channel*3
@@ -99,9 +101,9 @@ while ch!="q":
         frame = rawCapture.array
         #frame = cap.array
         for i in range(0,one_channel):
-            prediction_data_in[0,i] = sum(frame[-153:-85,i,0])
-            prediction_data_in[0,i+one_channel] = sum(frame[-153:-85,i,1])
-            prediction_data_in[0,i+one_channel+one_channel] = sum(frame[-153:-85,i,2])
+            prediction_data_in[0,i] = sum(frame[view_upper:view_lower,i,0])
+            prediction_data_in[0,i+one_channel] = sum(frame[view_upper:view_lower,i,1])
+            prediction_data_in[0,i+one_channel+one_channel] = sum(frame[view_upper:view_lower,i,2])
             
             prediction_data_in[0,i] = prediction_data_in[0,i]/data_in_max[0,i]
             prediction_data_in[0,i+one_channel] = prediction_data_in[0,i+one_channel]/data_in_max[0,i+one_channel]
