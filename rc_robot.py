@@ -34,7 +34,7 @@ cam.framerate = 30
 cam.awb_mode='auto'
 cam.iso=800
 cam.shutter_speed=1000000
-cam.exposure_mode = 'off' # off, auto, fixedfps
+cam.exposure_mode = 'auto' # off, auto, fixedfps
 time.sleep(3)
 g = cam.awb_gains
 cam.awb_mode = 'off'
