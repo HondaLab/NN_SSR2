@@ -87,6 +87,9 @@ if __name__=="__main__":
    key = keyin.Keyboard()
    ch="c"
    print("Input q to stop.")
+   now=time.time()
+   start=now
+   init=now
    left=0
    right=0
    while ch!="q":
@@ -100,14 +103,14 @@ if __name__=="__main__":
          if ch == "a" :
             left+= STEP
             right+= STEP
-            send_data(left,right)
+            #send_data(left,right)
             in_data_posi = in_data_posi + 1
             Run(mL,mR,left,right)
 
          if ch == "z" :
             left-= STEP
             right-= STEP
-            send_data(left,right)
+            #send_data(left,right)
             in_data_posi = in_data_posi + 1
             Run(mL,mR,left,right)
 
@@ -116,7 +119,7 @@ if __name__=="__main__":
             left = left - HANDLE_STEP
             right_flag = right_flag + HANDLE_STEP
             left_flag = left_flag - HANDLE_STEP
-            send_data(left,right)
+            #send_data(left,right)
             in_data_posi = in_data_posi + 1
             Run(mL,mR,left,right)
 
@@ -125,7 +128,7 @@ if __name__=="__main__":
             left = left - left_flag
             right_flag = 0
             left_flag = 0
-            send_data(left,right)
+            #send_data(left,right)
             in_data_posi = in_data_posi + 1
             Run(mL,mR,left,right)
 
@@ -134,7 +137,7 @@ if __name__=="__main__":
             left = left + HANDLE_STEP
             right_flag = right_flag - HANDLE_STEP
             left_flag = left_flag + HANDLE_STEP
-            send_data(left,right)
+            #send_data(left,right)
             in_data_posi = in_data_posi + 1
             Run(mL,mR,left,right)
             
@@ -143,7 +146,13 @@ if __name__=="__main__":
             frame = rawCapture.array
             print(frame[20,120,:])
             rawCapture.truncate(0)
-            
+
+         if now-init>0.1:
+            send_data(left,right)
+            init=now
+         
+         now=time.time() 
+      
       except KeyboardInterrupt:
          mL.run(0)
          mR.run(0)
