@@ -215,7 +215,7 @@ def net_test(HiddenNumber):
 figsize_x = 40
 figsize_y = 10
 
-hidden_num = range(300,1100,10)
+hidden_num = range(1100,1101,10)
 hidden_num_loss_train = np.zeros((1,len(hidden_num)))
 min_error_train = 999999
 min_error_location_train = 0
