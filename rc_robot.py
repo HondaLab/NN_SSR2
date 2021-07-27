@@ -22,6 +22,10 @@ import numpy as np
 import socket
 import time
 
+view_upper=130
+view_lower=220
+
+
 RES_X=int( 320 )
 RES_Y=int( 320 )
 cam = PiCamera()
@@ -59,12 +63,15 @@ def send_data(l,r):
       cam.capture(rawCapture, format="bgr", use_video_port=True)
       frame = rawCapture.array
       
+      cv2.imshow('frame',frame[view_upper:view_lower,:,:])
+      cv2.waitKey(1)
+      
       for i in range(0,RES_X):
-         picture_data.append(sum(frame[167:236,i,0]))
+         picture_data.append(sum(frame[view_upper:view_lower,i,0]))
       for i in range(0,RES_X):
-         picture_data.append(sum(frame[167:236,i,1]))
+         picture_data.append(sum(frame[view_upper:view_lower,i,1]))
       for i in range(0,RES_X):
-         picture_data.append(sum(frame[167:236,i,2]))
+         picture_data.append(sum(frame[view_upper:view_lower,i,2]))
       picture_data.append(l)
       picture_data.append(r)
       udp.send(picture_data)
