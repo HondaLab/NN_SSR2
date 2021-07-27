@@ -13,6 +13,7 @@ import modules.li_socket as sk
 #import modules.vl53_4a as lidar
 import time
 import pigpio
+import cv2
 from picamera.array import PiRGBArray
 from picamera import PiCamera
 from subprocess import Popen
