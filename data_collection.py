@@ -7,7 +7,7 @@ import numpy as np
 import csv
 import os
 
-udp = sk.UDP_Recv(sk.robot_address,sk.sensor_port)
+udp = sk.UDP_Recv(sk.learning_machine,sk.sensor_port)
 data = [0]
 teacher_data_list = []
 
