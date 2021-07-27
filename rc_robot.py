@@ -21,9 +21,6 @@ import numpy as np
 
 import socket
 import time
-#LI44 = '172.16.7.44'
-zelkova58 = '172.16.7.58'
-sensor_port = 50005
 
 RES_X=int( 320 )
 RES_Y=int( 320 )
@@ -76,7 +73,7 @@ def send_data(l,r):
 
 if __name__=="__main__":
    
-   udp = sk.UDP_Send(zelkova58,sk.sensor_port)
+   udp = sk.UDP_Send(sk.learning_machine,sk.sensor_port)
    
    STEP=10
    HANDLE_STEP=14
