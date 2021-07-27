@@ -24,7 +24,7 @@ import socket
 import time
 
 view_upper=130
-view_lower=220
+view_lower=270
 
 
 RES_X=int( 320 )
