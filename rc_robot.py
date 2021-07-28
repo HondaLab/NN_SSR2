@@ -3,9 +3,8 @@
 # ssr2_rc2a.py
 # CC BY-SA Yasushi Honda 2020 2/25 
 
-# How to execute
+# you need
 # sudo pigpiod
-# pyhton3 hjkl1.py 
 
 import modules.keyin as keyin # キーボード入力を監視するモジュール
 import modules.motor5a as mt # pwmでモーターを回転させるためのモジュール
@@ -23,16 +22,18 @@ import numpy as np
 import socket
 import time
 
-view_upper=130
-view_lower=270
+#view_upper=130
+#view_lower=270
+view_upper=0
+view_lower=1080
 
 
-RES_X=int( 320 )
-RES_Y=int( 320 )
+RES_X=int( 720 )
+RES_Y=int( 480 )
 cam = PiCamera()
 cam.framerate = 30
 cam.awb_mode='auto'
-cam.iso=800
+cam.iso=200
 cam.shutter_speed=1000000
 cam.exposure_mode = 'auto' # off, auto, fixedfps
 time.sleep(3)
@@ -60,23 +61,26 @@ def Run(mL,mR,left,right):
    if right>100: right = 100
    mR.run(right)
    
-def send_data(l,r):
+def Capture(l,r,send):
       cam.capture(rawCapture, format="bgr", use_video_port=True)
       frame = rawCapture.array
       
       cv2.imshow('frame',frame[view_upper:view_lower,:,:])
       cv2.waitKey(1)
       
-      for i in range(0,RES_X):
-         picture_data.append(sum(frame[view_upper:view_lower,i,0]))
-      for i in range(0,RES_X):
-         picture_data.append(sum(frame[view_upper:view_lower,i,1]))
-      for i in range(0,RES_X):
-         picture_data.append(sum(frame[view_upper:view_lower,i,2]))
-      picture_data.append(l)
-      picture_data.append(r)
-      udp.send(picture_data)
-      picture_data.clear()
+      if send==True: 
+         for i in range(0,RES_X):
+            picture_data.append(sum(frame[view_upper:view_lower,i,0]))
+         for i in range(0,RES_X):
+            picture_data.append(sum(frame[view_upper:view_lower,i,1]))
+         for i in range(0,RES_X):
+            picture_data.append(sum(frame[view_upper:view_lower,i,2]))
+         picture_data.append(l)
+         picture_data.append(r)
+         udp.send(picture_data)
+
+         picture_data.clear()
+
       rawCapture.truncate(0)
 
 if __name__=="__main__":
@@ -85,6 +89,8 @@ if __name__=="__main__":
    
    STEP=10
    HANDLE_STEP=14
+
+   PERIOD=0.1
    
    right_flag = 0
    left_flag = 0
@@ -98,27 +104,24 @@ if __name__=="__main__":
    now=time.time()
    start=now
    init=now
+   count=0
    left=0
    right=0
    while ch!="q":
     
-      ch = key.read()
-
-      print("\r %4d %4d" % (left,right),end='')
-
       try:
 
          if ch == "a" :
             left+= STEP
             right+= STEP
-            #send_data(left,right)
+            #Capture(left,right)
             in_data_posi = in_data_posi + 1
             Run(mL,mR,left,right)
 
          if ch == "z" :
             left-= STEP
             right-= STEP
-            #send_data(left,right)
+            #Capture(left,right)
             in_data_posi = in_data_posi + 1
             Run(mL,mR,left,right)
 
@@ -127,7 +130,7 @@ if __name__=="__main__":
             left = left - HANDLE_STEP
             right_flag = right_flag + HANDLE_STEP
             left_flag = left_flag - HANDLE_STEP
-            #send_data(left,right)
+            #Capture(left,right)
             in_data_posi = in_data_posi + 1
             Run(mL,mR,left,right)
 
@@ -136,7 +139,7 @@ if __name__=="__main__":
             left = left - left_flag
             right_flag = 0
             left_flag = 0
-            #send_data(left,right)
+            #Capture(left,right)
             in_data_posi = in_data_posi + 1
             Run(mL,mR,left,right)
 
@@ -145,7 +148,7 @@ if __name__=="__main__":
             left = left + HANDLE_STEP
             right_flag = right_flag - HANDLE_STEP
             left_flag = left_flag + HANDLE_STEP
-            #send_data(left,right)
+            #Capture(left,right)
             in_data_posi = in_data_posi + 1
             Run(mL,mR,left,right)
             
@@ -155,16 +158,22 @@ if __name__=="__main__":
             print(frame[20,120,:])
             rawCapture.truncate(0)
 
-         if now-init>0.1:
-            send_data(left,right)
+         if now-init>PERIOD:
+            Capture(left,right,send=True)
+            rate=count/PERIOD
+            print("\r %5.2f %5.3f %4d %4d" % (now-start,rate,left,right),end='')
             init=now
+            count=0
          
          now=time.time() 
+         count+=1
       
       except KeyboardInterrupt:
          mL.run(0)
          mR.run(0)
          break
+
+      ch = key.read()
 
    print("\nTidying up")
    mL.run(0)
