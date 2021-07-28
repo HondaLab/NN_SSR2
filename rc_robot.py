@@ -22,10 +22,10 @@ import numpy as np
 import socket
 import time
 
-#view_upper=130
-#view_lower=270
-view_upper=0
-view_lower=1080
+view_upper=130
+view_lower=270
+#view_upper=0
+#view_lower=480
 
 
 RES_X=int( 720 )
