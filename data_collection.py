@@ -21,6 +21,7 @@ start=now
 init=now
 count=0
 print("Input 'q' to stop.")
+print("time   rate   data_num")
 while ch !='q':
     try:
         data = udp.recv()
