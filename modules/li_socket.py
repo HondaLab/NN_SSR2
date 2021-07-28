@@ -26,7 +26,7 @@ class UDP_Recv():
 		self.sock.bind((addr,port))
 		self.sock.setblocking(0)
 	def recv(self):
-		message = self.sock.recv(15260).decode('utf-8')
+		message = self.sock.recv(17280).decode('utf-8')
 		slist = message.split(',')
 		a = [float(s) for s in slist]
 		return a
