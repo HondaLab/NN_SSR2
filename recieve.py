@@ -40,11 +40,11 @@ while ch !='q':
     now=time.time()
     ch = key.read()
 
-f1 = open('chainer_data_in.csv','w',encoding='utf-8')
+f1 = open('chainer_data_in.csv','a+',encoding='utf-8')
 csv_writer1 = csv.writer(f) 
-f2 = open('chainer_motor_out.csv','w',encoding='utf-8')
+f2 = open('chainer_motor_out.csv','a+',encoding='utf-8')
 csv_writer2 = csv.writer(f2) 
-f3 = open('chainer_data_in_include_distance_data.csv','w',encoding='utf-8')
+f3 = open('chainer_data_in_include_distance_data.csv','a+',encoding='utf-8')
 csv_writer3 = csv.writer(f3) 
 
 for i in range(0,len(teacher_data_list)):
