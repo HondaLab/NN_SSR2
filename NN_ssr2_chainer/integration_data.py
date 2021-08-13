@@ -31,10 +31,12 @@ for i in range(int(start_folder_name),int(end_data_name)+1):
     for j in range(0,data.shape[0]):
         csv_writer.writerow(data[j,:]) 
         csv_writer2.writerow(data2[j,:])  
-        csv_writer3.writerow(data3[j,:])      
+        csv_writer3.writerow(data3[j,:]) 
+time.sleep(2)
 f.close()
 f2.close()
 f3.close()
+time.sleep(1)
 print("the number of picture : ",picture_num)
 
 
