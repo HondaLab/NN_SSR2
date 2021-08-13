@@ -32,9 +32,11 @@ while 1:
             csv_writer1.writerow(dd[0:960])
             csv_writer3.writerow(dd[0:963])
             csv_writer2.writerow(dd[963:965])
+        time.sleep(1)
         f1.close() 
         f2.close()
         f3.close() 
+        time.sleep(1)
         print('\n',"data 保存完了")
         
         break
