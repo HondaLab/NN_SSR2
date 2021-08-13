@@ -6,8 +6,9 @@ import re
 import pandas as pd
 import os 
 
-end_data_name = input("Please input the end folder number of integrate data : ") 
 start_folder_name = input("Please input the start folder number of integrate data : ") 
+end_data_name = input("Please input the end folder number of integrate data : ") 
+
 picture_num = 0 
 f = open('chainer_motor_out.csv','w',encoding='utf-8')
 csv_writer = csv.writer(f)       
