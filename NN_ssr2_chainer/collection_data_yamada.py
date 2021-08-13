@@ -109,40 +109,40 @@ if __name__=="__main__":
                 left+= HANDLE_STEP
                 right-= HANDLE_STEP
                 Run(mL,mR,left,right)
+                send_data(left,right)
                 time.sleep(HANDLE_TIME)
                 left-= HANDLE_STEP
                 right+= HANDLE_STEP
-                send_data(left,right)
 
             if ch == "h" :
                 HANDLE_STEP=int(0.5*(left+right)*2.0)
                 left-= HANDLE_STEP
                 right+= HANDLE_STEP
                 Run(mL,mR,left,right)
+                send_data(left,right)
                 time.sleep(HANDLE_TIME)
                 left+= HANDLE_STEP
                 right-= HANDLE_STEP
-                send_data(left,right)
 
             if ch == "k" :
                 TRIM_STEP=int(0.5*(left+right)*1.0)
                 left+= TRIM_STEP
                 right-= TRIM_STEP
                 Run(mL,mR,left,right)
+                send_data(left,right)
                 time.sleep(TRIM_TIME)
                 left-= TRIM_STEP
                 right+= TRIM_STEP
-                send_data(left,right)
 
             if ch == "j" :
                 TRIM_STEP=int(0.5*(left+right)*1.0)
                 left-= TRIM_STEP
                 right+= TRIM_STEP
                 Run(mL,mR,left,right)
+                send_data(left,right)
                 time.sleep(TRIM_TIME)
                 left+= TRIM_STEP
                 right-= TRIM_STEP
-                send_data(left,right)
 
             if ch == "f" :
                 left+= 2*STEP
