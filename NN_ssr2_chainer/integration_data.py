@@ -6,6 +6,9 @@ import re
 import pandas as pd
 import os 
 
+end_data_name = input("Please input the end folder number of integrate data : ") 
+start_folder_name = input("Please input the start folder number of integrate data : ") 
+picture_num = 0 
 f = open('chainer_motor_out.csv','w',encoding='utf-8')
 csv_writer = csv.writer(f)       
 f2 = open('chainer_data_in.csv','w',encoding='utf-8')
@@ -13,10 +16,7 @@ csv_writer2 = csv.writer(f2)
 f3 = open('chainer_data_in_include_distance_data.csv','w',encoding='utf-8')
 csv_writer3 = csv.writer(f3) 
 
-end_data_name = input("Please input the quantity number of integrate data : ") 
-picture_num = 0  
-
-for i in range(1,int(end_data_name)+1):
+for i in range(start_folder_name,int(end_data_name)+1):
     path = "part_motor_out"+str(i)+".csv"
     path2 = "part_data_in"+str(i)+".csv"
     path3 = "part_data_in_include_distance_data"+str(i)+".csv"
