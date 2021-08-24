@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import modules.li_socket as sk
 import modules.keyin as keyin
 import socket
