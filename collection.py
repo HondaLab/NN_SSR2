@@ -107,12 +107,12 @@ if __name__=="__main__":
       cv2.waitKey(1)
 
       try:
-         if ch == "a" :
+         if ch == "f" :
             left+= STEP
             right+= STEP
             Update(frame,mL,mR,left,right,run=True)
 
-         if ch == "z" :
+         if ch == "a" :
             left-= STEP
             right-= STEP
             Update(frame,mL,mR,left,right,run=True)
@@ -138,15 +138,13 @@ if __name__=="__main__":
             left_flag = left_flag + HANDLE_STEP
             Update(frame,mL,mR,left,right,run=True)
             
-         '''
          # Update in PERIOD
          if now-init>PERIOD:
-            Update(frame,mL,mR,left,right,run=True)
+            #Update(frame,mL,mR,left,right,run=True)
             rate=count/PERIOD
             print("\r %5.2f %5.3f %4d %4d" % (now-start,rate,left,right),end='')
             init=now
             count=0
-         '''
          
       except KeyboardInterrupt:
          mL.run(0)
