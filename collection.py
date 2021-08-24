@@ -30,18 +30,12 @@ view_lower=235
 
 data = []
 
-def Update(mL,mR,left,right,run):
+def Update(frame,mL,mR,left,right,run):
    '''
-   In this function, Picamera captures image, tof sensors mesure distance.
-   And if run==True, this function moves both left and right motors.
+   If run==True, this function moves both left and right motors.
    Moreover these training data are send to the server to learn NN weights.
    '''
 
-   camera.cam.capture(camera.rawCapture, format="bgr", use_video_port=True)
-   frame = camera.rawCapture.array
-      
-   cv2.imshow('frame',frame[view_upper:view_lower,:,:])
-   cv2.waitKey(1)
 
    for i in range(0,camera.RES_X):
       data.append(sum(frame[view_upper:view_lower,i,0]))
@@ -78,7 +72,6 @@ def Update(mL,mR,left,right,run):
       mL.run(left)
       mR.run(right)
 
-   camera.rawCapture.truncate(0)
 
 if __name__=="__main__":
    
@@ -105,57 +98,64 @@ if __name__=="__main__":
    left=0
    right=0
    while ch!="q":
+      ch = key.read()
+
+      camera.cam.capture(camera.rawCapture, format="bgr", use_video_port=True)
+      frame = camera.rawCapture.array
+      
+      cv2.imshow('frame',frame[view_upper:view_lower,:,:])
+      cv2.waitKey(1)
+
       try:
          if ch == "a" :
             left+= STEP
             right+= STEP
-            Update(mL,mR,left,right,run=True)
+            Update(frame,mL,mR,left,right,run=True)
 
          if ch == "z" :
             left-= STEP
             right-= STEP
-            Update(mL,mR,left,right,run=True)
+            Update(frame,mL,mR,left,right,run=True)
 
          if ch == "j" :
             right = right + HANDLE_STEP
             left = left - HANDLE_STEP
             right_flag = right_flag + HANDLE_STEP
             left_flag = left_flag - HANDLE_STEP
-            Update(mL,mR,left,right,run=True)
+            Update(frame,mL,mR,left,right,run=True)
 
          if ch == "k" :
             right = right - right_flag
             left = left - left_flag
             right_flag = 0
             left_flag = 0
-            Update(mL,mR,left,right,run=True)
+            Update(frame,mL,mR,left,right,run=True)
 
          if ch == "l" :
             right = right - HANDLE_STEP
             left = left + HANDLE_STEP
             right_flag = right_flag - HANDLE_STEP
             left_flag = left_flag + HANDLE_STEP
-            Update(mL,mR,left,right,run=True)
+            Update(frame,mL,mR,left,right,run=True)
             
          '''
          # Update in PERIOD
          if now-init>PERIOD:
-            Update(mL,mR,left,right,run=True)
+            Update(frame,mL,mR,left,right,run=True)
             rate=count/PERIOD
             print("\r %5.2f %5.3f %4d %4d" % (now-start,rate,left,right),end='')
             init=now
             count=0
          '''
          
-         now=time.time() 
-         count+=1
-      
       except KeyboardInterrupt:
          mL.run(0)
          mR.run(0)
          break
 
-      ch = key.read()
+      camera.rawCapture.truncate(0)
+      now=time.time() 
+      count+=1
 
    print("\nTidying up")
    mL.run(0)

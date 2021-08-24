@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import numpy as np
 #from pandas_ods_reader import read_ods
 import csv
