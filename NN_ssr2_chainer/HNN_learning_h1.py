@@ -127,7 +127,7 @@ def net_train(hidden_number,EPOCH,STOP_ERROR,ALPHA,BETA1,BETA2,EPS,ETA,WEIGHT_RA
     loss_list = []
     loss_limit = STOP_ERROR
     loss_limit_flag = 0
-    flag_limit = 100
+    flag_limit = 200
     for i in range(0,epoch):
         nn.zerograds()
         loss = nn(x,y)
@@ -155,6 +155,7 @@ def net_train(hidden_number,EPOCH,STOP_ERROR,ALPHA,BETA1,BETA2,EPS,ETA,WEIGHT_RA
             #print('break:最大学習回数に至った',epoch)
             break
     #plt.plot(range(0,len(loss_list)),loss_list)
+    #plt.show()
     return np.abs(loss)
     #plt.scatter(1,loss_list)
     #plt.plot(xtrain,ytrain)
@@ -272,7 +273,7 @@ min_error_train = 999999
 min_error_location_train = 0
 
 Epoch=10000
-Stop_Error=0.0001
+Stop_Error=0.00001
 Alpha=0.001
 Beta1=0.9
 Beta2=0.999
@@ -291,8 +292,6 @@ for i in hidden_num:
 out_error,output_data = net_test(min_error_location_train)  
 end_time = time.time()  
 loop1_time = end_time - start_time
-
-
 
 hidden_num_loss_test = np.zeros((1,len(hidden_num)))
 min_error_test = 99999
@@ -338,7 +337,6 @@ plt.xlabel("neuron number in hidden layer")
 plt.ylabel("train data error with different neuron number in hidden layer")
 plt.savefig('TrainError_Hidden.pdf',bbox_inches='tight')
 #plt.show()
-
 plt.figure(2)
 fig = plt.figure(figsize=(figsize_x,figsize_y))
 ax = fig.add_subplot(111)
@@ -349,7 +347,6 @@ plt.xlabel("Time")
 plt.ylabel("Test data's left motor output of network based on train data's best weights and b ")
 plt.savefig('TrainWeight_LeftOutput.pdf',bbox_inches='tight')
 #plt.show()
-
 plt.figure(3)
 fig = plt.figure(figsize=(figsize_x,figsize_y))
 ax = fig.add_subplot(111)
@@ -360,7 +357,6 @@ plt.xlabel("Time")
 plt.ylabel("Test data's right motor output of network based on train data's best weights and b ")
 plt.savefig('TrainWeight_rightOutput.pdf',bbox_inches='tight')
 #plt.show()
-
 plt.figure(4)
 fig = plt.figure(figsize=(figsize_x,figsize_y))
 ax = fig.add_subplot(111)
@@ -370,7 +366,6 @@ plt.xlabel("neuron number in hidden layer")
 plt.ylabel("test data error with different neuron number in hidden layer")
 plt.savefig('TestError_Hidden.pdf',bbox_inches='tight')
 #plt.show()
-
 plt.figure(5)
 fig = plt.figure(figsize=(figsize_x,figsize_y))
 ax = fig.add_subplot(111)
@@ -381,7 +376,6 @@ plt.xlabel("Time")
 plt.ylabel("Test data's left motor output of network based on test data's best weights and b ")
 plt.savefig('TestWeight_leftOutput.pdf',bbox_inches='tight')
 #plt.show()
-
 plt.figure(6)
 fig = plt.figure(figsize=(figsize_x,figsize_y))
 ax = fig.add_subplot(111)
@@ -392,8 +386,6 @@ plt.xlabel("Time")
 plt.ylabel("Test data's right motor output of network based on test data's best weights and b ")
 plt.savefig('TestWeight_rightOutput.pdf',bbox_inches='tight')
 #plt.show()
-
-
 print("Output Error of Train Data : ",out_error)
 print("The best hidden layer number of Train Data : ",min_error_location_train)
 print("Output Error of Test Data : ",min_error_test)
