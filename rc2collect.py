@@ -21,8 +21,8 @@ import time
 
 tofR,tofL,tofC=lidar.start()
 
-view_upper=165
-view_lower=235
+view_upper=50
+view_lower=319
 #view_upper=130
 #view_lower=270
 #view_upper=0
