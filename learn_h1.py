@@ -50,11 +50,11 @@ for i in range(0,data_out.shape[1]):
         ytrain[v][i] = data_out[v,i]/data_out_max
         #data_out[v,i] = (data_out[v,i] - data_mean)/data_stand
         
-f = open('data_in_max.csv','w',encoding='utf-8')
+f = open('/tmp/data_in_max.csv','w',encoding='utf-8')
 csv_writer = csv.writer(f)       
 csv_writer.writerow(data_in_max_list)        
 f.close()
-f2 = open('data_out_max.csv','w',encoding='utf-8')
+f2 = open('/tmp/data_out_max.csv','w',encoding='utf-8')
 csv_writer2 = csv.writer(f2)
 csv_writer2.writerow(data_out_max_list)      
 f2.close()
@@ -115,12 +115,12 @@ def net_train(hidden_number,EPOCH,STOP_ERROR,ALPHA,BETA1,BETA2,EPS,ETA,WEIGHT_RA
         if np.abs(loss) < loss_limit:
             loss_limit_flag = loss_limit_flag + 1
         if loss_limit_flag > flag_limit:
-            file_name = 'optimum_weight_'+ str(hidden_number)
+            file_name = '/tmp/optimum_weight_'+ str(hidden_number)
             serializers.save_npz(file_name, nn)
             #print('break:',i)
             break
 
-    file_name = 'optimum_weight_'+ str(hidden_number)
+    file_name = '/tmp/optimum_weight_'+ str(hidden_number)
     serializers.save_npz(file_name, nn)
     #print('break:最大学習回数に至った',epoch)
 
@@ -132,12 +132,12 @@ def net_train(hidden_number,EPOCH,STOP_ERROR,ALPHA,BETA1,BETA2,EPS,ETA,WEIGHT_RA
 
 """read test file change to test value"""
 
-with open('data_in_max.csv','r') as f:
+with open('/tmp/data_in_max.csv','r') as f:
     reader = csv.reader(f)
     d = list(reader)
     d_in_max = d[0]   #is list
     
-with open('data_out_max.csv','r') as f2:
+with open('/tmp/data_out_max.csv','r') as f2:
     reader2 = csv.reader(f2)
     d = list(reader2)
     d_out_max = d[0]#is list
@@ -181,7 +181,7 @@ def net_test(HiddenNumber):
             return h2 
     
     nn_prediction = MyChain_test()
-    file_name = 'optimum_weight_' + str(HIDDEN_UNIT)
+    file_name = '/tmp/optimum_weight_' + str(HIDDEN_UNIT)
     serializers.load_npz(file_name, nn_prediction)
     
     gpu_device = 0
