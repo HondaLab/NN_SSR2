@@ -12,8 +12,8 @@ import time
 import pandas as pd
 
 
-path1 = "chainer_data_in.csv"
-path2 = "chainer_motor_out.csv"
+path1 = "/tmp/chainer_data_in.csv"
+path2 = "/tmp/chainer_motor_out.csv"
 
 data_in = pd.read_csv(path1)
 data_in = data_in.values

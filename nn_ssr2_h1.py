@@ -28,7 +28,7 @@ input_number = one_channel*3
 hidden_number = 1100
 output_number = 2
 
-with open('data_in_max.csv','r') as f:
+with open('/tmp/data_in_max.csv','r') as f:
     reader = csv.reader(f)
     result = list(reader)
     d_in_max = result[0]   #is list
@@ -36,7 +36,7 @@ data_in_max = np.zeros((1,len(d_in_max)))
 for i in range(0,len(d_in_max)):
     data_in_max[0,i] = d_in_max[i]
     
-with open('data_out_max.csv','r') as f:
+with open('/tmp/data_out_max.csv','r') as f:
     reader = csv.reader(f)
     result = list(reader)
     d_out_max = result[0]   #is list
@@ -83,7 +83,7 @@ class MyChain_test(Chain):
         return h2 
     
 nn_prediction = MyChain_test()
-file_name = 'optimum_weight_' + str(HIDDEN_UNIT)
+file_name = '/tmp/optimum_weight_' + str(HIDDEN_UNIT)
 serializers.load_npz(file_name, nn_prediction)
 
 
