@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import cv2
 import numpy as np
 #from pandas_ods_reader import read_ods
 import csv
@@ -18,10 +19,13 @@ from picamera.array import PiRGBArray
 from picamera import PiCamera
 from subprocess import Popen
 
-view_upper=50
-view_lower=319
+view_upper=160
+view_lower=250
 
-ANGL_GAIN=0.8
+#view_upper=50
+#view_lower=319
+
+ANGL_GAIN=1.2
 
 one_channel = 320
 input_number = one_channel*3
@@ -105,6 +109,9 @@ while ch!="q":
             break
         cam.capture(rawCapture, format="bgr", use_video_port=True)
         frame = rawCapture.array
+        cv2.imshow('frame',frame[view_upper:view_lower,:,:])
+        cv2.waitKey(1)
+
         #frame = cap.array
         for i in range(0,one_channel):
             prediction_data_in[0,i] = sum(frame[view_upper:view_lower,i,0])

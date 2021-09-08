@@ -1,6 +1,6 @@
 import socket
 
-learning_machine = '172.16.7.79'
+learning_machine = '172.16.7.19'
 sensor_port = 50005
 
 class UDP_Send():
