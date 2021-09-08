@@ -4,7 +4,6 @@
 # sudo pigpiod
 
 import modules.keyin as keyin # キーボード入力を監視するモジュール
-import modules.motor5a as mt # pwmでモーターを回転させるためのモジュール
 import modules.li_socket as sk
 import modules.vl53_4a as lidar
 import modules.camera as camera

@@ -11,14 +11,17 @@ import re
 import os
 import modules.keyin as keyin # キーボード入力を監視するモジュール
 import modules.motor5a as mt # pwmでモーターを回転させるためのモジュール
+import modules.motor1 as sv
 import time
 import pigpio
 from picamera.array import PiRGBArray
 from picamera import PiCamera
 from subprocess import Popen
 
-view_upper=130
-view_lower=270
+view_upper=165
+view_lower=235
+
+ANGL_GAIN=0.8
 
 one_channel = 320
 input_number = one_channel*3
@@ -49,7 +52,7 @@ RES_Y=int( 320 )
 cam = PiCamera()
 cam.framerate = 30
 cam.awb_mode='auto'
-cam.iso=800
+cam.iso=400
 cam.shutter_speed=1000000
 cam.exposure_mode = 'auto' # off, auto, fixedfps
 time.sleep(3)
@@ -91,6 +94,7 @@ ch="c"
 print("Input q to stop.")
 mL=mt.Lmotor(17)
 mR=mt.Rmotor(18)
+csv=sv.Rmotor(27)
 
     
 #for cap in cam.capture_continuous(rawCapture, format="bgr", use_video_port="True"):
@@ -122,8 +126,7 @@ while ch!="q":
             y_out[0,k] = float(yy[k]) * data_out_max[0,k]        
         left=round(y_out[0,0])*1
         right=round(y_out[0,1])*1
-        print('\r',end = '')
-        print("left : ",left,"      ","right : ",right,end = '')
+        print("\r left : %5d right : %5d" % (left,right),end = '')
         if left >= 100:
             left = 99
         if left <= -100:
@@ -134,6 +137,8 @@ while ch!="q":
             right = -99
         mL.run(left)
         mR.run(right)
+        angl=int(ANGL_GAIN*(right-left))
+        csv.run(angl)
         rawCapture.truncate(0) 
     except KeyboardInterrupt:
         mL.run(0)
