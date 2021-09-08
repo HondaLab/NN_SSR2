@@ -18,8 +18,8 @@ from picamera.array import PiRGBArray
 from picamera import PiCamera
 from subprocess import Popen
 
-view_upper=165
-view_lower=235
+view_upper=50
+view_lower=319
 
 ANGL_GAIN=0.8
 
