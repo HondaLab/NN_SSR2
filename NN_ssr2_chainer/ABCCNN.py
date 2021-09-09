@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import numpy as np
 import time
 import pandas as pd
@@ -348,20 +349,39 @@ for ABC_cyc in range(maxCycle):
         break
 
 print(GlobalMinList)
+"""
+figsize_x = 20
+figsize_y = 10
+plt.figure(1)
+fig = plt.figure(figsize=(figsize_x,figsize_y))
+ax = fig.add_subplot(111)
+ax.plot(GlobalMinList)
+plt.xlabel("")
+plt.ylabel("")
+plt.grid()
+plt.savefig(folder+'/'+'error.pdf',bbox_inches='tight')
 
+figsize_x = 40
+figsize_y = 10
+plt.figure(2)
+fig = plt.figure(figsize=(figsize_x,figsize_y))
+ax = fig.add_subplot(111)
+ax.plot(data_out[:,0],label='teacher')
+ax.plot(trained_out[:,0],label='train')
+plt.xlabel("")
+plt.ylabel("")
+plt.legend()
+plt.grid()
+plt.savefig(folder+'/'+'left_motor_output.pdf',bbox_inches='tight')
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+plt.figure(3)
+fig = plt.figure(figsize=(figsize_x,figsize_y))
+ax = fig.add_subplot(111)
+ax.plot(data_out[:,1],label='teacher')
+ax.plot(trained_out[:,1],label='train')
+plt.xlabel("")
+plt.ylabel("")
+plt.legend()
+plt.grid()
+plt.savefig(folder+'/'+'right_motor_output.pdf',bbox_inches='tight')
+"""
