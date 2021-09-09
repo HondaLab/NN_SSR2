@@ -13,6 +13,7 @@ import os
 import modules.keyin as keyin # キーボード入力を監視するモジュール
 import modules.motor5a as mt # pwmでモーターを回転させるためのモジュール
 import modules.motor1 as sv
+import modules.ctrl_5a as ctrl
 import time
 import pigpio
 from picamera.array import PiRGBArray
@@ -96,9 +97,8 @@ y_out = np.zeros((1,OUTPUT_UNIT))
 key = keyin.Keyboard()
 ch="c"
 print("Input q to stop.")
-mL=mt.Lmotor(17)
-mR=mt.Rmotor(18)
-csv=sv.Rmotor(27)
+
+ssr3=ctrl.Robot()
 
     
 #for cap in cam.capture_continuous(rawCapture, format="bgr", use_video_port="True"):
@@ -134,6 +134,7 @@ while ch!="q":
         left=round(y_out[0,0])*1
         right=round(y_out[0,1])*1
         print("\r left : %5d right : %5d" % (left,right),end = '')
+
         if left >= 100:
             left = 99
         if left <= -100:
@@ -142,18 +143,14 @@ while ch!="q":
             right = 99
         if right <= -100:
             right = -99
-        mL.run(left)
-        mR.run(right)
-        angl=int(ANGL_GAIN*(right-left))
-        csv.run(angl)
+
+        ssr3.Run(left,right)
         rawCapture.truncate(0) 
     except KeyboardInterrupt:
-        mL.run(0)
-        mR.run(0)
+        ssr3.stop()
         rawCapture.truncate(0)
         break
 
 rawCapture.truncate(0)         
-mL.run(0)
-mR.run(0)
+ssr3.stop()
 

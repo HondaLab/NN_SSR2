@@ -7,7 +7,7 @@ import modules.keyin as keyin # キーボード入力を監視するモジュー
 import modules.li_socket as sk
 import modules.vl53_4a as lidar
 import modules.camera as camera
-import modules.rc4a as rc
+import modules.ctrl_5a as ctrl
 import time
 import pigpio
 import cv2
@@ -81,7 +81,7 @@ if __name__=="__main__":
    right_flag = 0
    left_flag = 0
 
-   ssr3=rc.KeyAssign()   
+   ssr3=ctrl.Robot()   
  
    key = keyin.Keyboard()
    ch="c"
@@ -120,6 +120,7 @@ if __name__=="__main__":
          ssr3.stop()
          break
 
+      ssr3.Run(left,right)
       camera.rawCapture.truncate(0)
       now=time.time() 
       count+=1

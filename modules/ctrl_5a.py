@@ -19,7 +19,7 @@ TRIM_STEP=8
 TRIM_TIME=0.2
 ANGL_GAIN=1.2
 
-class KeyAssign():
+class Robot():
 
    def __init__(self):
       self.mL=mt.Lmotor(17)
@@ -30,41 +30,16 @@ class KeyAssign():
 
    def update(self,ch):
       if ch == "j" :
-         #TRIM_STEP=int(0.5*(left+right)*1.0)
          self.left-= TRIM_STEP
          self.right+= TRIM_STEP
-         angl=int(ANGL_GAIN*(self.right-self.left))
-         self.csv.run(angl)
 
       if ch == "k" :
-         #TRIM_STEP=int(0.5*(self.left+self.right)*1.0)
          self.left+= TRIM_STEP
          self.right-= TRIM_STEP
-         angl=int(ANGL_GAIN*(self.right-self.left))
-         self.csv.run(angl)
 
       if ch == "g" :
-         self.left=int(0.5*(self.left+self.right)*1.0)
+         self.left=int(0.5*(self.left+self.right))
          self.right=self.left
-         self.csv.run(0)
-
-      if ch == "l" :
-         HANDLE_STEP=int(0.5*(self.left+self.right)*2.0)
-         self.left+= HANDLE_STEP
-         self.right-= HANDLE_STEP
-         Run(self.mL,self.mR,self.left,self.right)
-         time.sleep(HANDLE_TIME)
-         self.left-= HANDLE_STEP
-         self.right+= HANDLE_STEP
-
-      if ch == "h" :
-         HANDLE_STEP=int(0.5*(self.left+self.right)*2.0)
-         self.left-= HANDLE_STEP
-         self.right+= HANDLE_STEP
-         Run(self.mL,self.mR,self.left,self.right)
-         time.sleep(HANDLE_TIME)
-         self.left+= HANDLE_STEP
-         self.right-= HANDLE_STEP
 
       if ch == "f" :
          self.left+= STEP
@@ -73,28 +48,31 @@ class KeyAssign():
       if ch == "d" :
          self.left-= STEP
          self.right-= STEP
+
       if ch == "s" :
          self.left= 0
          self.right= 0
-         self.csv.run(0)
 
-      Run(self.mL,self.mR,self.left,self.right)
       #print("\r %4d %4d" % (self.left,self.right),end='')
 
       return self.left,self.right
+
+   def Run(self,left,right):
+      if left<-100: left = -100
+      if left>100: left = 100
+      self.mL.run(left)
+      if right<-100: right = -100
+      if right>100: right = 100
+      self.mR.run(right)
+
+      angl=int(ANGL_GAIN*(right-left))
+      self.csv.run(angl)
 
    def stop(self):
       self.mL.run(0)
       self.mR.run(0)
       self.csv.run(0)
 
-def Run(mL,mR,left,right):
-   if left<-100: left = -100
-   if left>100: left = 100
-   mL.run(left)
-   if right<-100: right = -100
-   if right>100: right = 100
-   mR.run(right)
 
 
 if __name__=="__main__":
