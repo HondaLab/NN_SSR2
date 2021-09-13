@@ -62,8 +62,8 @@ last_nnR = 20
 last_ML = 40
 last_MR = 40
 def Model_Accommodate(nnL,nnR,ML,MR):
-    outL = ((nnL * (abs(last_nnL-nnL)/(abs(last_nnL-nnL) + abs(last_ML-ML)))) + (ML * (abs(last_ML-ML)/(abs(last_nnL-nnL) + abs(last_ML-ML)))))/2
-    outR = ((nnR * (abs(last_nnR-nnR)/(abs(last_nnR-nnR) + abs(last_MR-MR)))) + (MR * (abs(last_MR-MR)/(abs(last_nnR-nnR) + abs(last_MR-MR)))))/2
+    outL = ((nnL*abs(last_nnL-nnL))+(ML*abs(last_ML-ML)))/2*(abs(last_nnL-nnL) + abs(last_ML-ML))
+    outR = ((nnR*abs(last_nnR-nnR))+(MR*abs(last_MR-MR)))/2*(abs(last_nnR-nnR) + abs(last_MR-MR))
     last_nnL = nnL
     last_nnR = nnR
     last_ML = ML
