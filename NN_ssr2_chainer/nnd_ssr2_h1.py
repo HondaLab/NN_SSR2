@@ -31,7 +31,7 @@ def tanh1(x):
     alpha2=30.0
     beta=0.004
     beta2=10.00
-    b=260
+    b=160
     c=0.0
     f=alpha*math.tanh(beta*(x-b)) + alpha2*math.tanh(beta2*(x-b))+c
     return f
