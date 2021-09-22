@@ -68,9 +68,9 @@ def Model_Accommodate(nnL,nnR,ML,MR):
     last_nnR = nnR
     last_ML = ML
     last_MR = MR
-    #return outL,outR
+    return outL,outR
     #return ML,MR
-    return nnL,nnR
+    #return nnL,nnR
 
 one_channel = 320
 input_number = one_channel*3
