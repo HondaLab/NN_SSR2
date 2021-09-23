@@ -47,7 +47,7 @@ def tanhMotor():
     gamma=0.33
     while MOUT.proces:
         distanceL=tofL.get_distance()
-        time.sleep(0.3)
+        time.sleep(0.03)
         if distanceL>2000:
             distanceL=2000
         distanceC=tofC.get_distance()
@@ -55,7 +55,7 @@ def tanhMotor():
         if distanceC>2000:
             distanceC=2000
         distanceR=tofR.get_distance()
-        time.sleep(0.3)
+        time.sleep(0.03)
         if distanceR>2000:
             distanceR=2000
         #print(distanceL,"            ",distanceC,"            ",distanceR)
@@ -65,7 +65,7 @@ def tanhMotor():
             areaR=math.exp(gamma*math.log(distanceC))*math.exp((1-gamma)*math.log(distanceR))
         MOUT.powerL=tanh1(areaR)
         MOUT.powerR=tanh1(areaL)
-        time.sleep(0.3)
+        time.sleep(0.03)
 p = threading.Thread(target=tanhMotor)
 p.start()
 
