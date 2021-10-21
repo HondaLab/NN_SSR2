@@ -5,7 +5,7 @@ teacher data :
 https://muroranit-my.sharepoint.com/:u:/g/personal/20043068_mmm_muroran-it_ac_jp/EW3JrT4Qc2FLv4XZDQQAzXkBjjGTF9sr99w809OttwJUJw?e=LjS0YQ
 
 
-## NNデータ収集手順：（○：走行ロボットの端末の操作　●：データを受信するコンピュータの端末の操作）<br>
+## NNデータ収集手順（○：走行ロボットの端末の操作　●：データを受信するコンピュータの端末の操作）<br>
 ○１．フォルダー「NN_SSR2」の中の「NN_ssr2_chainer」に移動する．ロボット側，データ受信側ともにここに使用するソースコードがある．<br>
 ○２．１のフォルダーで「collention_data.py」を実行する．別のウィンドウでロボットの視点映像が表示される．端末にクリックして，入力できるようにする．<br>
 ○３．最初はロボットの視点映像が真っ黒であるが，端末に何回か入力すれば，映像が表示される．以上でロボット側の準備完了．<br>
