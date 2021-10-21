@@ -5,7 +5,7 @@ teacher data :
 https://muroranit-my.sharepoint.com/:u:/g/personal/20043068_mmm_muroran-it_ac_jp/EW3JrT4Qc2FLv4XZDQQAzXkBjjGTF9sr99w809OttwJUJw?e=LjS0YQ
 
 
-## NNデータ収集手順（○：走行ロボットの端末の操作　●：データを受信するコンピュータの端末の操作）<br>
+## NN教師データの収集手順（○：走行ロボットの端末の操作　●：データを受信するコンピュータの端末の操作）<br>
 ○１．フォルダー「NN_SSR2」の中の「NN_ssr2_chainer」に移動する．ロボット側，データ受信側ともにここに使用するソースコードがある．<br>
 ２．ロボット側とデータ受信側，両方のフォルダー「modules」の中の「li_sokcket.py」のソースコード内のdata_reciving_terminal（3行目）の値を受信するパソコンのIPアドレスに書き換える．<br>
 ○３．１のフォルダーで「collention_data.py」を実行する．別のウィンドウでロボットの視点映像が表示される．端末にクリックして，入力できるようにする．画面は暗くなっているが，これはロボットが走行し始めると表示される．以上でロボットの準備完了．<br>
