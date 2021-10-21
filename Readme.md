@@ -13,7 +13,7 @@ https://muroranit-my.sharepoint.com/:u:/g/personal/20043068_mmm_muroran-it_ac_jp
 ### ロボットの操作方法（a:前進　power +20，z:後退　back power -20，j:左曲がり，l:右曲がり，k:曲がる値を０にする）<br>
 
 ## ２回目以降のデータ収集の際の注意点<br>
-「rec_data.py」をもう一度実行するとデータは収集される．ファイル名は手順で入力した数字の次のものになる，<br>※データを結合する際連続されたものでないと結合できないので注意<br>
+「rec_data.py」をもう一度実行するとデータは収集される．ファイル名は手順で入力した数字の次のものになる，<br>※データを結合する際，数字が連続されたものでないと結合できないので注意<br>
 
 ## 収集したデータの結合方法<br>
 １．データ受信側の端末で「intergation_data.py」を実行する．結合したいファイルのstart number と stop number を入力する，結合されたデータは「chainer_data_in.py」「chainer_data_in_include_distance_data」「chainer_motor_out」に保存される．これは学習用のデータである．このデータは上書きされていくので各自別のフォルダーに移動する．<br>
