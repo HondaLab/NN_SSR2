@@ -4,7 +4,7 @@ from picamera import PiCamera
 import time
 
 RES_X=int( 320 )
-RES_Y=int( 320 )
+RES_Y=int( 240 )
 cam = PiCamera()
 cam.framerate = 20
 cam.awb_mode='auto'
