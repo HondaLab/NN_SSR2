@@ -71,7 +71,7 @@ def send_data(l,r,vw):
     camera.rawCapture.truncate(0)
 
 if __name__=="__main__":
-    OUT_FILE="output.mp4"
+    OUT_FILE="data_collection_output.mp4"
     fmt = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
     record_fps=10
     width=320
