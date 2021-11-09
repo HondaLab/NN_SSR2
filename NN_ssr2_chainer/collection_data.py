@@ -71,11 +71,11 @@ def send_data(l,r,vw):
     camera.rawCapture.truncate(0)
 
 if __name__=="__main__":
-    OUT_FILE="/tmp/output.mp4"
+    OUT_FILE="output.mp4"
     fmt = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
     record_fps=10
     width=320
-    height=70
+    height=ic.im_cut_below-ic.im_cut_up
     print("# Resolution: %5d x %5d" % (width,height))
     size = (width, height)
     vw = cv2.VideoWriter(OUT_FILE, fmt, record_fps, size)
