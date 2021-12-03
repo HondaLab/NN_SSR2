@@ -11,17 +11,16 @@ import modules.keyin as keyin # キーボード入力を監視するモジュー
 import modules.motor5a as mt # pwmでモーターを回転させるためのモジュール
 import modules.imageCut as ic
 import cv2
-import time
 import pigpio
 from subprocess import Popen
 import numpy as np
-import modules.vl53_4a as lidar
+import modules.vl53_5a as lidar
 import socket
 import modules.li_socket as sk
 import time
 import modules.camera as camera
 
-tofR,tofL,tofC=lidar.start()
+tofL,tofR,tofC=lidar.start()
 
 picture_data = []
 
@@ -71,7 +70,7 @@ def send_data(l,r,vw):
     camera.rawCapture.truncate(0)
 
 if __name__=="__main__":
-    OUT_FILE="data_collection_output.mp4"
+    OUT_FILE="data_collection_output.avi"
     fmt = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
     record_fps=10
     width=320
@@ -83,12 +82,16 @@ if __name__=="__main__":
    
     STEP = 35
     HANDLE_STEP = 35 
+
+    CSV_TRIM=95
    
     right_flag = 0
     left_flag = 0
 
-    mL=mt.Lmotor(17)
-    mR=mt.Rmotor(18)
+    mL=mt.Lmotor(23)
+    mR=mt.Rmotor(14)
+    csv=mt.Rmotor(18)
+    csv.run(CSV_TRIM)
    
     key = keyin.Keyboard()
     ch="c"
@@ -97,13 +100,12 @@ if __name__=="__main__":
     now = time.time()
     start = now
     init = now
+    count=0
     print("Input q to stop.")
     left=0
     right=0
     send_num = 0
     while ch!="q":
-        ch = key.read()
-        print("\r %4d %4d" % (left,right),end='')
         try:
             if ch == "w" :
                 left += STEP
@@ -149,8 +151,18 @@ if __name__=="__main__":
             mR.run(0)
             break
 
-    print("\nTidying up")
+        now=time.time()
+        if now-start>PERIOD:        
+           print("\r %7.1f %4d %4d" % (now-init,left,right),end='')
+           count=0
+           start=now
+           
+        count+=1
+        ch = key.read()
+
+    print("\n See your again!")
     vw.release()
     mL.run(0)
     mR.run(0)
+    csv.run(CSV_TRIM)
    

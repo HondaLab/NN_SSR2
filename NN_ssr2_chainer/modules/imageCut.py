@@ -1,2 +1,2 @@
-im_cut_up = 165
-im_cut_below = 235
+im_cut_up = 120
+im_cut_below = 190
