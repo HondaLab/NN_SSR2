@@ -82,6 +82,8 @@ integration_data.py を実行して，教師デーダを統合する．
 NN_learning_h1.py あるいは NN_learning_h2.py を実行して，
 中間層１層と２層のニューラルネットワークを学習させる，
 
+send.shを利用すると，自動的にロボットに学習結果が送信される．
+
 [NN_batch_training]のcodeはミニバッチ学習．
 
 
@@ -89,8 +91,6 @@ NN_learning_h1.py あるいは NN_learning_h2.py を実行して，
 学習結果の「Input_data_max.csv」「Output_data_max.csv」「optimum_weight_???」
 などのfileをロボット(Raspi)に移して「nn_ssr2_hX.py」により，
 ロボットが自律行動を開始する．
-
-send.shを利用すると，自動的にロボットに学習結果が送信される．
 
 
 ## teacher data example:
