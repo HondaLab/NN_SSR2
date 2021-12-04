@@ -105,7 +105,8 @@ if __name__=="__main__":
             try: # cam.capture
                camera.cam.capture(camera.rawCapture, format="bgr", use_video_port=True)
                frame = camera.rawCapture.array
-               cv2.imshow('frame',frame)
+               show=cv2.resize(frame,(800,600))
+               cv2.imshow('Front view',show)
                cv2.waitKey(1)
 
                if ch == "w" :
