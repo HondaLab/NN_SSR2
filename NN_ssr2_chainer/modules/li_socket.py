@@ -1,6 +1,6 @@
 import socket
 
-data_reciving_terminal = '172.16.7.19'
+data_reciving_terminal = '172.16.7.79'
 sensor_port = 50005
 
 class UDP_Send():
