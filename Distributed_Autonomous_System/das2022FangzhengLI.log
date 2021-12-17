@@ -1,4 +1,4 @@
-This is e-pTeX, Version 3.14159265-p3.8.3-191112-2.6 (utf8.euc) (TeX Live 2020/Debian) (preloaded format=platex 2021.3.30)  17 DEC 2021 05:36
+This is e-pTeX, Version 3.14159265-p3.8.3-191112-2.6 (utf8.euc) (TeX Live 2020/Debian) (preloaded format=platex 2021.3.30)  17 DEC 2021 15:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -194,43 +194,55 @@ LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <12> not available
 
 
 ]
+File: robot_eye.eps Graphic file (type eps)
+ <robot_eye.eps>
 LaTeX Font Info:    Font shape `JT1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JT1/gt/m/n' tried instead on input line 33.
+(Font)              Font shape `JT1/gt/m/n' tried instead on input line 41.
 LaTeX Font Info:    Font shape `JY1/mc/bx/n' in size <10> not available
-(Font)              Font shape `JY1/gt/m/n' tried instead on input line 33.
+(Font)              Font shape `JY1/gt/m/n' tried instead on input line 41.
 File: teacher_collection.eps Graphic file (type eps)
  <teacher_collection.eps>
-File: robot_eye.eps Graphic file (type eps)
- <robot_eye.eps>)
-(./training.tex [2]
+[2]) (./training.tex
+Underfull \hbox (badness 10000) in paragraph at lines 15--18
+[]\OT1/cmr/m/n/10 Adam \JY1/mc/m/n/10 のパラメ ータ ーとして $\OML/cmm/m/it/10 
+^^K$\OT1/cmr/m/n/10 =0.01\JY1/mc/m/n/10 ， $\OML/cmm/m/it/10 ^^Q$\OT1/cmr/m/n/1
+0 =0.3\JY1/mc/m/n/10 ，
+ []
+
 File: anti_left.eps Graphic file (type eps)
- <anti_left.eps>
+<anti_left.eps>
 File: anti_right.eps Graphic file (type eps)
  <anti_right.eps>
 File: LeftOutput.eps Graphic file (type eps)
  <LeftOutput.eps>
 File: rightOutput.eps Graphic file (type eps)
-
-<rightOutput.eps>) (./smm.tex) (./exp4.tex [3]
+ <rightOutput.eps>) (./smm.tex) (./exp4.tex [3]
 File: shitaR.eps Graphic file (type eps)
  <shitaR.eps>
 File: startrand.eps Graphic file (type eps)
  <startrand.eps>
 File: start_crowd.eps Graphic file (type eps)
+ <start_crowd.eps>
+Underfull \hbox (badness 10000) in paragraph at lines 59--59
+[]\OT1/cmr/m/n/9 Fig. 10 \JY1/mc/m/n/9 渋滞の初期配置
+ []
 
-<start_crowd.eps>) (./two_teachData_result.tex
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+) (./two_teachData_result.tex
 File: NN_handle15.eps Graphic file (type eps)
  <NN_handle15.eps>
 File: nnhandle15.eps Graphic file (type eps)
-
-<nnhandle15.eps>) (./locusResult.tex [4]
+ <nnhandle15.eps> [4])
+(./locusResult.tex
 File: nn_shita_R_rand.eps Graphic file (type eps)
  <nn_shita_R_rand.eps>
 File: smm_shita_R_rand270.eps Graphic file (type eps)
-
-<smm_shita_R_rand270.eps>
+ <smm_shita_R_rand270.eps>
 File: NN_exp.eps Graphic file (type eps)
- <NN_exp.eps>
+
+<NN_exp.eps>
 File: SMM270_exp.eps Graphic file (type eps)
  <SMM270_exp.eps>
 
@@ -243,14 +255,19 @@ File: result_diagrim_crow.eps Graphic file (type eps)
  <result_diagrim_crow.eps>
 File: mean_Q.eps Graphic file (type eps)
 
-<mean_Q.eps>) (./dis.tex [5]) [6] (./das2022FangzhengLI.aux) ) 
+<mean_Q.eps>) (./dis.tex [5])
+Underfull \hbox (badness 1515) in paragraph at lines 80--83
+[]\OT1/cmr/m/n/10 H.Murakami, C.Feliciani, Y.Nishiyama and K.
+ []
+
+[6] (./das2022FangzhengLI.aux) ) 
 Here is how much of TeX's memory you used:
- 1842 strings out of 479776
- 25484 string characters out of 5881600
- 327949 words of memory out of 5000000
- 19190 multiletter control sequences out of 15000+600000
+ 1843 strings out of 479776
+ 25502 string characters out of 5881600
+ 326949 words of memory out of 5000000
+ 19191 multiletter control sequences out of 15000+600000
  418243 words of font info for 83 fonts, out of 8000000 for 9000
  929 hyphenation exceptions out of 8191
- 68i,17n,74p,652b,348s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 68i,17n,74p,338b,348s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on das2022FangzhengLI.dvi (6 pages, 35332 bytes).
+Output written on das2022FangzhengLI.dvi (6 pages, 37752 bytes).
