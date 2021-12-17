@@ -1,26 +1,33 @@
+本研究では，
+二次元画像データ(RGB)のピクセル値を縦方向($y$方向)にすべて足し合わせて一次元画像をつくる．
+それらを並べたものを１次元画像ベクトル$\vec{u}$とする(\ref{eq:onedimension}式参照)．
 
-一次元画像データとは，二次元(Red,Green,Blue)の画像データの列をそれぞれ足し算して，
-得た3つのベクトルをくっつけることである(\ref{eq:onedimension}式参照)．
-$\boldsymbol R_{\rm i}$,$\boldsymbol G_{\rm i}$,$\boldsymbol B_{\rm i}$は画像データのRed,Green,Blueそれぞれの約130行目から200行目
-，70行の行列，$i$は列の番号，$N$は列の数(本研究は$N$=320),$\vec u$は$1$行$960$列のベクトル．
+具体的に記述する．
+カメラで撮影するのは$320 \times 240$のサイズのピクセル値であるが，不要な部分を切り取って，
+約130行目から200行目を切り出す．
+コースの壁や障害物となる走行ロボット以外が撮影されている上下の部分を不要な部分とみなす．
+つまりコース以外とロボット自身が映ってる部分をトリミングする(Fig.\ref{roboteye}参照)．
 
-Fig.\ref{roboteye}はロボットの視点，コース以外とロボット自分を映ってる部分がトリミングする．
+
+その画像データのRed,Green,Blueそれぞれのピクセル値を要素としてもつ数値行列を
+$\boldsymbol R,\boldsymbol G,\boldsymbol B$とする．
+下記のように1次元画像$\vec{u}$を作成する．
 
 \vspace{-2mm}
 \begin{eqnarray}
 \left\{
 \begin{aligned}
-\vec u_{\rm r}= \sum_{i=1}^N \boldsymbol R_{\rm i}\\
-\vec u_{\rm g}= \sum_{i=1}^N \boldsymbol G_{\rm i}\\
-\vec u_{\rm b}= \sum_{i=1}^N \boldsymbol B_{\rm i}\\
-%begin{array}
-%\vec u = \vec u_{\rm r} & \vec u_{\rm g} & \vec u_{\rm b} \\
-%end{array}
-\vec u = (\vec u_{\rm r},\vec u_{\rm g},\vec u_{\rm b}) \\
+\vec u_{\rm R}= \sum_{y=1}^N \boldsymbol R_{y}\\
+\vec u_{\rm G}= \sum_{y=1}^N \boldsymbol G_{y}\\
+\vec u_{\rm B}= \sum_{y=1}^N \boldsymbol B_{y}\\
+\vec u = (\vec u_{\rm R}, \vec u_{\rm G}, \vec u_{\rm B}) \\
 \end{aligned}
 \right.
 \label{eq:onedimension}
 \end{eqnarray}
+ただし，$\boldsymbol R_y, \boldsymbol G_y, \boldsymbol B_y$は
+それぞれ$\boldsymbol R, \boldsymbol G, \boldsymbol B$の第$y$行だけを取り出したベクトルである．
+$N$は列の数(本研究では$N$=320),$\vec u$は$960$列のベクトルとなる．
 
 
 \subsubsection{大きいハンドルで教師データ収集}

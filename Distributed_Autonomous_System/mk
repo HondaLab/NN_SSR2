@@ -1,0 +1,4 @@
+#!/usr/bin/sh
+tg=das2022FangzhengLI
+platex $tg.tex
+dvipdfmx -f jpn.map $tg.dvi
