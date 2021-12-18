@@ -4,10 +4,10 @@
 # sudo pigpiod
 
 import modules.keyin as keyin # キーボード入力を監視するモジュール
-import modules.li_socket as sk
-import modules.vl53_4a as lidar
+import modules.socket as sk
+import modules.tof4_6a as tof 
 import modules.camera as camera
-import modules.ctrl_5a as ctrl
+import modules.rc3c as ctrl
 import time
 import pigpio
 import cv2
@@ -19,14 +19,9 @@ import numpy as np
 import socket
 import time
 
-tofR,tofL,tofC=lidar.start()
 
-view_upper=160
-view_lower=250
-#view_upper=130
-#view_lower=270
-#view_upper=0
-#view_lower=480
+view_upper=80
+view_lower=320
 
 data = []
 
@@ -71,6 +66,7 @@ def Send(frame,left,right):
 
 if __name__=="__main__":
    
+   tofR,tofL,tofC,tofM=tof.start()
    udp = sk.UDP_Send(sk.learning_machine,sk.sensor_port)
    
    STEP=20
@@ -81,7 +77,7 @@ if __name__=="__main__":
    right_flag = 0
    left_flag = 0
 
-   ssr3=ctrl.Robot()   
+   ssr3=ctrl.KeyAssign()   
  
    key = keyin.Keyboard()
    ch="c"
@@ -95,7 +91,10 @@ if __name__=="__main__":
    while ch!="q":
       ch = key.read()
 
-      left,right=ssr3.update(ch)
+      distL=tofL.get_distance()
+      distR=tofR.get_distance()
+
+      left,right,angl=ssr3.update(ch,distL,distR)
 
       camera.cam.capture(camera.rawCapture, format="bgr", use_video_port=True)
       frame = camera.rawCapture.array
@@ -104,7 +103,8 @@ if __name__=="__main__":
       if ch!='':
          Send(frame,left,right)
       
-      cv2.imshow('frame',frame[view_upper:view_lower,:,:])
+      show=cv2.resize(frame,(800,400))
+      cv2.imshow('front',show[view_upper:view_lower,:,:])
       cv2.waitKey(1)
 
       try:
@@ -120,7 +120,6 @@ if __name__=="__main__":
          ssr3.stop()
          break
 
-      ssr3.Run(left,right)
       camera.rawCapture.truncate(0)
       now=time.time() 
       count+=1

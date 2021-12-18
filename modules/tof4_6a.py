@@ -37,6 +37,8 @@ def start():
    sensor2_shutdown = 4
    # GPIO for Sensor 3 shutdown pin
    sensor3_shutdown = 17
+   # GPIO for Sensor 3 shutdown pin
+   sensor4_shutdown = 27
 
    GPIO.setwarnings(False)
 
@@ -45,23 +47,25 @@ def start():
    GPIO.setup(sensor1_shutdown, GPIO.OUT)
    GPIO.setup(sensor2_shutdown, GPIO.OUT)
    GPIO.setup(sensor3_shutdown, GPIO.OUT)
+   GPIO.setup(sensor4_shutdown, GPIO.OUT)
    time.sleep(1)
 
    # Set all shutdown pins low to turn off each VL53L0X
    GPIO.output(sensor1_shutdown, GPIO.LOW)
    GPIO.output(sensor2_shutdown, GPIO.LOW)
    GPIO.output(sensor3_shutdown, GPIO.LOW)
+   GPIO.output(sensor4_shutdown, GPIO.LOW)
 
    # Keep all low for 500 ms or so to make sure they reset
    time.sleep(1)
 
    # Create one object per VL53L0X passing the address to give to each.
-   tof1 = vl53.VL53L0X(address=0x2B)
-   tof2 = vl53.VL53L0X(address=0x2D)
+   tof1 = vl53.VL53L0X(address=0x2A)
+   tof2 = vl53.VL53L0X(address=0x2B)
    tof3 = vl53.VL53L0X(address=0x2C)
+   tof4 = vl53.VL53L0X(address=0x2D)
    time.sleep(1)
 
-   # Set shutdown pin high for the first VL53L0X then 
    # call to start ranging 
    GPIO.output(sensor1_shutdown, GPIO.HIGH)
    time.sleep(0.50)
@@ -69,29 +73,30 @@ def start():
    #tof1.start_ranging(vl53.VL53L0X_BETTER_ACCURACY_MODE)
    #tof1.start_ranging(vl53.VL53L0X_LONG_RANGE_MODE)
 
-   # Set shutdown pin high for the second VL53L0X then 
-   # call to start ranging 
    GPIO.output(sensor2_shutdown, GPIO.HIGH)
    time.sleep(0.50)
    tof2.start_ranging(vl53.VL53L0X_HIGH_SPEED_MODE)
 
-   # Set shutdown pin high for the second VL53L0X then 
-   # call to start ranging 
    GPIO.output(sensor3_shutdown, GPIO.HIGH)
    time.sleep(0.50)
    tof3.start_ranging(vl53.VL53L0X_HIGH_SPEED_MODE)
+
+   GPIO.output(sensor4_shutdown, GPIO.HIGH)
+   time.sleep(0.50)
+   tof4.start_ranging(vl53.VL53L0X_HIGH_SPEED_MODE)
 
    #timing = tof.get_timing()
    #if (timing < 20000):
    #   timing = 20000
    #print ("Timing %d ms" % (timing/1000))
 
-   return tof1,tof2,tof3
+   return tof1,tof2,tof3,tof4
 
 def shutdown(tof1,tof2,tof3):
    tof1.stop_ranging()
    tof2.stop_ranging()
    tof3.stop_ranging()
+   tof4.stop_ranging()
    #GPIO.output(sensor2_shutdown, GPIO.LOW)
    #GPIO.output(sensor1_shutdown, GPIO.LOW)
 
