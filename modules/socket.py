@@ -1,6 +1,6 @@
 import socket
 
-learning_machine = '172.16.7.79'
+data_reciving_terminal = '172.16.7.79'
 sensor_port = 50005
 
 class UDP_Send():
@@ -26,7 +26,7 @@ class UDP_Recv():
 		self.sock.bind((addr,port))
 		self.sock.setblocking(0)
 	def recv(self):
-		message = self.sock.recv(18000).decode('utf-8')
+		message = self.sock.recv(15260).decode('utf-8')
 		slist = message.split(',')
 		a = [float(s) for s in slist]
 		return a
