@@ -4,10 +4,10 @@
 # sudo pigpiod
 
 import modules.keyin as keyin # キーボード入力を監視するモジュール
-import modules.li_socket as sk
-import modules.vl53_4a as lidar
+import modules.socket as sk
+import modules.tof4_6a as tof 
 import modules.camera as camera
-import modules.ctrl_5a as ctrl
+import modules.rc3c as ctrl
 import time
 import pigpio
 import cv2
@@ -19,14 +19,9 @@ import numpy as np
 import socket
 import time
 
-tofR,tofL,tofC=lidar.start()
 
-view_upper=160
-view_lower=250
-#view_upper=130
-#view_lower=270
-#view_upper=0
-#view_lower=480
+view_upper=80
+view_lower=320
 
 data = []
 
@@ -71,17 +66,26 @@ def Send(frame,left,right):
 
 if __name__=="__main__":
    
+   tofR,tofL,tofC,tofM=tof.start()
    udp = sk.UDP_Send(sk.learning_machine,sk.sensor_port)
    
    STEP=20
    HANDLE_STEP=15
 
    PERIOD=0.1
+
+   OUT_FILE="/tmp/output.avi"
+   print("# Captured movie is written in %s ." % OUT_FILE)
+   fmt = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
+   record_fps=9
+   crop_w=320
+   crop_h=240
+   vw = cv2.VideoWriter(OUT_FILE, fmt, record_fps, (crop_w,crop_h))
    
    right_flag = 0
    left_flag = 0
 
-   ssr3=ctrl.Robot()   
+   ssr3=ctrl.KeyAssign()   
  
    key = keyin.Keyboard()
    ch="c"
@@ -95,7 +99,10 @@ if __name__=="__main__":
    while ch!="q":
       ch = key.read()
 
-      left,right=ssr3.update(ch)
+      distL=tofL.get_distance()
+      distR=tofR.get_distance()
+
+      left,right,angl=ssr3.update(ch,distL,distR)
 
       camera.cam.capture(camera.rawCapture, format="bgr", use_video_port=True)
       frame = camera.rawCapture.array
@@ -104,7 +111,9 @@ if __name__=="__main__":
       if ch!='':
          Send(frame,left,right)
       
-      cv2.imshow('frame',frame[view_upper:view_lower,:,:])
+      show=cv2.resize(frame,(800,400))
+      cv2.imshow('front',show[view_upper:view_lower,:,:])
+      vw.write(frame)
       cv2.waitKey(1)
 
       try:
@@ -117,14 +126,15 @@ if __name__=="__main__":
             count=0
          
       except KeyboardInterrupt:
+         vw.release()
          ssr3.stop()
          break
 
-      ssr3.Run(left,right)
       camera.rawCapture.truncate(0)
       now=time.time() 
       count+=1
 
+   vw.release()
    print("\n Bye-bye!")
    ssr3.stop()
    
