@@ -1,7 +1,7 @@
 import socket
 
-data_reciving_terminal = '172.16.7.79'
-sensor_port = 50005
+robot = '172.16.8.122'
+port = 50001
 
 class UDP_Send():
 	def __init__(self,addr,port):
