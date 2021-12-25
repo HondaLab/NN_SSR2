@@ -10,9 +10,6 @@ import modules.picam as picam
 import modules.ssr3 as ssr3
 import pigpio
 import cv2
-#from picamera.array import PiRGBArray
-#from picamera import PiCamera
-#from subprocess import Popen
 
 import socket
 import time
