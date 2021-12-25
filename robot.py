@@ -6,9 +6,8 @@
 import modules.keyin as keyin # キーボード入力を監視するモジュール
 import modules.socket as sk
 import modules.tof4_6a as tof 
-import modules.camera as camera
+import modules.picam as picam 
 import modules.ssr3 as ssr3
-import time
 import pigpio
 import cv2
 #from picamera.array import PiRGBArray
@@ -71,6 +70,8 @@ if __name__=="__main__":
    control_data=[4]
 
    body=ssr3.Actuator()   
+
+   cam=picam.PI_CAMERA(320,240)
    
    PERIOD=0.5
 
@@ -111,16 +112,15 @@ if __name__=="__main__":
       except (BlockingIOError, socket.error):
          pass
 
-      camera.cam.capture(camera.rawCapture, format="bgr", use_video_port=True)
-      frame = camera.rawCapture.array
+      frame = cam.capture()
 
       # Send data to learning server only when you have key-input.
       #if ch!='':
       #   Send(frame,left,right)
       
-      #show=cv2.resize(frame,(800,400))
-      #cv2.imshow('front',show[view_upper:view_lower,:,:])
-      #vw.write(frame)
+      show=cv2.resize(frame,(800,400))
+      cv2.imshow('front',show[view_upper:view_lower,:,:])
+      vw.write(frame)
       cv2.waitKey(1)
 
       try: # show infomation
@@ -133,7 +133,6 @@ if __name__=="__main__":
       except KeyboardInterrupt:
          break
 
-      camera.rawCapture.truncate(0)
       now=time.time() 
       count+=1
 
