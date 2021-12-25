@@ -11,10 +11,9 @@ import modules.ssr3 as ssr3
 import time
 import pigpio
 import cv2
-from picamera.array import PiRGBArray
-from picamera import PiCamera
-from subprocess import Popen
-import numpy as np
+#from picamera.array import PiRGBArray
+#from picamera import PiCamera
+#from subprocess import Popen
 
 import socket
 import time
@@ -119,9 +118,9 @@ if __name__=="__main__":
       #if ch!='':
       #   Send(frame,left,right)
       
-      show=cv2.resize(frame,(800,400))
-      cv2.imshow('front',show[view_upper:view_lower,:,:])
-      vw.write(frame)
+      #show=cv2.resize(frame,(800,400))
+      #cv2.imshow('front',show[view_upper:view_lower,:,:])
+      #vw.write(frame)
       cv2.waitKey(1)
 
       try: # show infomation
