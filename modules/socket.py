@@ -1,7 +1,9 @@
 import socket
 
-robot = '172.16.8.122'
-port = 50001
+robot_addr = '172.16.8.122'
+robot_port = 50001
+learning_addr='172.16.8.181'
+learning_port=50002
 
 class UDP_Send():
 	def __init__(self,addr,port):
