@@ -14,39 +14,26 @@ import cv2
 import socket
 import time
 
+RES_X=320
+RES_Y=240
 
-view_upper=80
-view_lower=320
+view_upper=40
+view_lower=RES_Y
 
 data = []
 
-def Send(frame,left,right):
-   '''
-   If run==True, this function moves both left and right motors.
-   Moreover these training data are send to the server to learn NN weights.
-   '''
+def Send(udp,frame,left,right):
 
+   for x in range(0,RES_X):
+      #pass
+      data.append(sum(frame[view_upper:view_lower,x,0]))
+      #data.append(sum(frame[view_upper:view_lower,x,1]))
+      #data.append(sum(frame[view_upper:view_lower,x,2]))
 
-   for i in range(0,camera.RES_X):
-      data.append(sum(frame[view_upper:view_lower,i,0]))
-   for i in range(0,camera.RES_X):
-      data.append(sum(frame[view_upper:view_lower,i,1]))
-   for i in range(0,camera.RES_X):
-      data.append(sum(frame[view_upper:view_lower,i,2]))
-
-   distanceL=tofL.get_distance()
-   if distanceL>2000:
-      distanceL=2000
-   distanceC=tofC.get_distance()
-   if distanceC>2000:
-      distanceC=2000
-   distanceR=tofR.get_distance()
-   if distanceR>2000:
-      distanceR=2000
-   #print("\r %4d %4d" % (distanceL,distanceC,distanceR),end='')
-   data.append(distanceL)
-   data.append(distanceC)
-   data.append(distanceR)
+   dummy=0
+   data.append(dummy)
+   data.append(dummy)
+   data.append(dummy)
 
    if left<-100: left = -99
    if left>100: left = 99
@@ -55,7 +42,7 @@ def Send(frame,left,right):
    data.append(left)
    data.append(right)
 
-   udp.send(data)
+   #udp.send(data)
    data.clear()
 
 
@@ -113,7 +100,7 @@ if __name__=="__main__":
 
       # Send data to learning server only when you have key-input.
       #if ch!='':
-      #   Send(frame,left,right)
+      Send(learning,frame,left,right)
       
       show=cv2.resize(frame,(800,400))
       cv2.imshow('front',show[view_upper:view_lower,:,:])
