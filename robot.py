@@ -75,7 +75,7 @@ if __name__=="__main__":
    OUT_FILE="/tmp/output.avi"
    print("# Captured movie is written in %s ." % OUT_FILE)
    fmt = cv2.VideoWriter_fourcc('m', 'p', '4', 'v')
-   record_fps=9
+   record_fps=30
    crop_w=320
    crop_h=240
    vw = cv2.VideoWriter(OUT_FILE, fmt, record_fps, (crop_w,crop_h))
