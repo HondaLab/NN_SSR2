@@ -3,7 +3,8 @@ import socket
 robot_addr = '172.16.8.122'
 robot_port = 50001
 learning_addr='172.16.8.181'
-learning_port=50003
+picam_port=50002
+motor_port=50003
 
 class UDP_Send():
 	def __init__(self,addr,port):
