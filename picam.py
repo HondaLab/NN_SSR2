@@ -76,7 +76,7 @@ if __name__ == "__main__":
     select='n'
     PERIOD=0.1
 
-    learning = sk.UDP_Send(sk.learning_addr,sk.learning_port)
+    picam_udp = sk.UDP_Send(sk.learning_addr,sk.picam_port)
 
     # For recording
     OUT_FILE="/tmp/output.avi"
@@ -127,7 +127,7 @@ if __name__ == "__main__":
             if recording=='y':
                vw.write(frame)
 
-            Send(learning,frame)
+            Send(picam_udp,frame)
       
 
         except KeyboardInterrupt:
