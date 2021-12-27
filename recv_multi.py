@@ -9,7 +9,7 @@ import csv
 import os
 import sys
 
-RECORD=50 # for 1 sec
+RECORD=10 # 50 for 1 sec
 PERIOD=0.5
 
 data_name = input("Please input the last name of data (Arabic numerals) : ")
@@ -18,7 +18,7 @@ picam_udp = sk.UDP_Recv(sk.learning_addr,sk.picam_port)
 motor_udp = sk.UDP_Recv(sk.learning_addr,sk.motor_port)
 
 data = []
-motor_data = []
+motor_data = [0.0 for i in range(5)]
 left_list=[0.0 for i in range(RECORD)]
 right_list=[0.0 for i in range(RECORD)]
 left=0
@@ -35,14 +35,16 @@ motor_count=0
 while data_number < int(data_num_limit):
    try:
       data = picam_udp.recv()
+      # モーター値に変化があるときだけ記録
       if np.abs(left_list[0]-left_list[RECORD-1])>30:
-         data_number = data_number + 1
+         data.append(motor_data)
          teacher_data_list.append(data)
-         teacher_data_list.append(motor_data)
+         data_number = data_number + 1
    except (BlockingIOError,socket.error):
       pass
    try:
       motor_data = motor_udp.recv()
+      #print(motor_data)
       left=motor_data[3]
       right=motor_data[4]
       left_list.pop(0)
@@ -63,15 +65,15 @@ while data_number < int(data_num_limit):
 
 f1 = open('part_data_in' + str(data_name) + '.csv','w',encoding='utf-8')
 csv_writer1 = csv.writer(f1) 
-f3 = open('part_data_in_include_distance_data' + str(data_name) + '.csv','w',encoding='utf-8')
-csv_writer3 = csv.writer(f3) 
-f2 = open('part_motor_out' + str(data_name) +'.csv','w',encoding='utf-8')
+f2 = open('part_data_in_include_distance_data' + str(data_name) + '.csv','w',encoding='utf-8')
 csv_writer2 = csv.writer(f2) 
+f3 = open('part_motor_out' + str(data_name) +'.csv','w',encoding='utf-8')
+csv_writer3 = csv.writer(f3) 
 for i in range(0,len(teacher_data_list)):
     dd = teacher_data_list[i]
     csv_writer1.writerow(dd[0:960])
-    csv_writer3.writerow(dd[0:963])
-    csv_writer2.writerow(dd[963:965])
+    csv_writer2.writerow(dd[0:963])
+    csv_writer3.writerow(dd[963:965])
 f1.close() 
 f2.close()
 f3.close() 
