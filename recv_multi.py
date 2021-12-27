@@ -9,6 +9,8 @@ import csv
 import os
 import sys
 
+PERIOD=0.03
+
 data_name = input("Please input the last name of data (Arabic numerals) : ")
 data_num_limit = input("How many data do you want recive : ")
 picam_udp = sk.UDP_Recv(sk.learning_addr,sk.picam_port)
@@ -16,7 +18,9 @@ motor_udp = sk.UDP_Recv(sk.learning_addr,sk.motor_port)
 
 data = []
 motor_data = []
-start = time.time()
+now=time.time()
+start=now
+init=now
 data_number = 0
 teacher_data_list = []
 
@@ -26,16 +30,17 @@ while data_number < int(data_num_limit):
       data_number = data_number + 1
       teacher_data_list.append(data)
       teacher_data_list.append(motor_data)
-      #print("\r",end='')
-      print("data got : ",data_number,end = '')
-      print("\r",end='')
    except (BlockingIOError,socket.error):
       pass
-
    try:
       motor_data = motor_udp.recv()
    except (BlockingIOError,socket.error):
       pass
+
+   now=time.time()
+   if now-start>PERIOD:
+      print("\r %5d left:%5.1f right:%5.1f" %(data_number,motor_data[3],motor_data[4]),end = '')
+      start=now
 
 f1 = open('part_data_in' + str(data_name) + '.csv','w',encoding='utf-8')
 csv_writer1 = csv.writer(f1) 
