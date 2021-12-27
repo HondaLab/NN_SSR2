@@ -14,7 +14,6 @@ import socket
 import time
 
 
-
 if __name__=="__main__":
    
    #tofR,tofL,tofC,tofM=tof.start()
