@@ -33,7 +33,7 @@ class PI_CAMERA():
 
       self.cam.awb_mode='auto'
       #list_awb = ['off', 'auto', 'sunlight', 'cloudy', 'shade']
-      self.cam.iso=200
+      self.cam.iso=1600
       self.cam.shutter_speed=10000000
       self.cam.exposure_mode = 'auto' # off, auto, fixedfps
       time.sleep(1)
@@ -63,7 +63,9 @@ def Send(udp,frame):
 
    for x in range(0,RES_X):
       data.append(sum(frame[view_upper:view_lower,x,0]))
+   for x in range(0,RES_X):
       data.append(sum(frame[view_upper:view_lower,x,1]))
+   for x in range(0,RES_X):
       data.append(sum(frame[view_upper:view_lower,x,2]))
 
    udp.send(data)
