@@ -14,7 +14,7 @@ from picamera import PiCamera
 RES_X=320
 RES_Y=240
 
-view_upper=40
+view_upper=170 # 170
 view_lower=RES_Y
 
 class PI_CAMERA():
@@ -74,7 +74,7 @@ if __name__ == "__main__":
 
     recording='n'
     select='n'
-    PERIOD=0.1
+    PERIOD=0.2
 
     picam_udp = sk.UDP_Send(sk.learning_addr,sk.picam_port)
 
@@ -116,24 +116,25 @@ if __name__ == "__main__":
         ch=key.read()
 
         try: 
-            capt = cam.capture()
-            #print(len(v) for v in capt)
-            frame = capt[crop_upper:crop_lower,crop_left:crop_right,:]
-            frame = cv2.resize(frame,(crop_w,crop_h))
-            show_size=(800,400)
-            show=cv2.resize(frame,show_size)
-            cv2.imshow("Front View", show)
-            cv2.waitKey(1)
-            if recording=='y':
-               vw.write(frame)
+           capt = cam.capture()
+           #print(len(v) for v in capt)
+           frame = capt[crop_upper:crop_lower,crop_left:crop_right,:]
+           frame = cv2.resize(frame,(crop_w,crop_h))
+           show_size=(800,400)
+           show=cv2.resize(frame,show_size)
+           cv2.imshow("Front View", show)
+           cv2.waitKey(1)
+           if recording=='y':
+              vw.write(frame)
 
-            Send(picam_udp,frame)
+           Send(picam_udp,frame)
+           count+=1
       
 
         except KeyboardInterrupt:
-            print("ctrl + C ")
-            cv2.destroyAllWindows()
-            vw.release()
+           print("ctrl + C ")
+           cv2.destroyAllWindows()
+           vw.release()
 
         if now-start>PERIOD:
            rate=count/PERIOD
@@ -143,7 +144,6 @@ if __name__ == "__main__":
 
         #time.sleep(0.5)
            
-        count+=1
 
     cv2.destroyAllWindows()
     vw.release()
