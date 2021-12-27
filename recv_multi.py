@@ -37,7 +37,7 @@ while data_number < int(data_num_limit):
       data = picam_udp.recv()
       # モーター値に変化があるときだけ記録
       if np.abs(left_list[0]-left_list[RECORD-1])>30:
-         data.append(motor_data)
+         data.extend(motor_data)
          teacher_data_list.append(data)
          data_number = data_number + 1
    except (BlockingIOError,socket.error):
@@ -58,7 +58,7 @@ while data_number < int(data_num_limit):
    now=time.time()
    if now-start>PERIOD:
       motor_rate=motor_count/PERIOD
-      print("\r %5d left:%5.1f right:%5.1f" %(data_number,left,right),end = '')
+      print("\r %5d left:%6.1f right:%6.1f %5d" %(data_number,left,right,len(data)),end = '')
       #print("\r motor_rate:%5.1f %5.1f %5.1f" % (motor_rate,left_list[0],left_list[RECORD-1]),end='')
       start=now
       motor_count=0
