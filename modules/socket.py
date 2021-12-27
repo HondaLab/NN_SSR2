@@ -2,7 +2,6 @@ import socket
 
 robot_addr = '172.16.8.122'
 robot_port = 50001
-picam_port = 50002
 learning_addr='172.16.8.181'
 learning_port=50003
 

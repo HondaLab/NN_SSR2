@@ -4,6 +4,7 @@
 
 import cv2
 import time
+import socket
 import modules.socket as sk
 import modules.keyin as keyin
 
@@ -57,25 +58,13 @@ class PI_CAMERA():
 
       return frame
 
-def Send(udp,frame,left,right):
+def Send(udp,frame):
    data=[]
 
    for x in range(0,RES_X):
       data.append(sum(frame[view_upper:view_lower,x,0]))
       data.append(sum(frame[view_upper:view_lower,x,1]))
       data.append(sum(frame[view_upper:view_lower,x,2]))
-
-   dummy=0
-   data.append(dummy)
-   data.append(dummy)
-   data.append(dummy)
-
-   if left<-100: left = -99
-   if left>100: left = 99
-   if right<-100: right = -99
-   if right>100: right = 99
-   data.append(left)
-   data.append(right)
 
    udp.send(data)
    data.clear()
@@ -85,7 +74,7 @@ if __name__ == "__main__":
 
     recording='n'
     select='n'
-    PERIOD=0.5
+    PERIOD=0.1
 
     learning = sk.UDP_Send(sk.learning_addr,sk.learning_port)
 
@@ -125,6 +114,7 @@ if __name__ == "__main__":
     while ch!='q':
         now=time.time()
         ch=key.read()
+
         try: 
             capt = cam.capture()
             #print(len(v) for v in capt)
@@ -137,7 +127,7 @@ if __name__ == "__main__":
             if recording=='y':
                vw.write(frame)
 
-            #Send(learning,frame,left,right)
+            Send(learning,frame)
       
 
         except KeyboardInterrupt:
@@ -147,7 +137,7 @@ if __name__ == "__main__":
 
         if now-start>PERIOD:
            rate=count/PERIOD
-           print("\r time: %8.2f rate:%8.2f" % (now-init,rate), end='')
+           print("\r time: %5.1f rate:%5.1f" % (now-init,rate), end='')
            count=0
            start=now
 

@@ -19,10 +19,12 @@ if __name__=="__main__":
    #tofR,tofL,tofC,tofM=tof.start()
    controller=sk.UDP_Recv(sk.robot_addr,sk.robot_port)
    control_data=[4]
+   learning=sk.UDP_Send(sk.learning_addr,sk.learning_port)
+   motor_data=[2]
 
    body=ssr3.Actuator()   
 
-   PERIOD=0.5
+   PERIOD=0.2
 
    key = keyin.Keyboard()
    ch="c"
@@ -46,6 +48,7 @@ if __name__=="__main__":
          Ry=control_data[3]
          joystick=[Lx,Ly,Rx,Ry]
          left,right=body.run(joystick)
+         motor_data=[left,right]
       except (BlockingIOError, socket.error):
          pass
 
@@ -54,6 +57,7 @@ if __name__=="__main__":
          if now-init>PERIOD:
             rate=int(count/PERIOD)
             print("\r time:%8.2f rate:%5d left:%5d right:%5d" % (now-start,rate,left,right),end='')
+            learning.send(motor_data)
             init=now
             count=0
          
