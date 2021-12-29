@@ -14,8 +14,9 @@ from picamera import PiCamera
 RES_X=320
 RES_Y=240
 
-view_upper=170 # 170
-view_lower=RES_Y
+view_upper=int(0.4*RES_Y) # 170
+view_lower=view_upper+150
+if view_lower>RES_Y: view_lower=RES_Y
 
 class PI_CAMERA():
    def __init__(self,width,height):
