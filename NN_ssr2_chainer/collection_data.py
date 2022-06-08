@@ -81,8 +81,8 @@ if __name__=="__main__":
     vw = cv2.VideoWriter(OUT_FILE, fmt, record_fps, size)
     udp_send_data = sk.UDP_Send(sk.data_reciving_terminal,sk.sensor_port)
    
-    STEP=20
-    HANDLE_STEP=15
+    STEP=35
+    HANDLE_STEP=5
    
     right_flag = 0
     left_flag = 0
